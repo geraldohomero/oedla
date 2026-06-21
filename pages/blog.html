@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Artigo | OEDLA</title>
-  <meta name="description" content="Publicações, análises e notícias do OEDLA carregadas dinamicamente.">
+  <title>Blog | OEDLA</title>
+  <meta name="description" content="Blog do OEDLA com análises acadêmicas detalhadas sobre extrema direita e democracia na América Latina.">
   <script>
     (function () {
       const themeKey = 'oedla-theme';
@@ -47,7 +47,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600;1,700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="../styles.css">
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
     tailwind.config = {
@@ -56,21 +56,30 @@
     }
   </script>
 </head>
-<body data-page="post">
+<body data-page="blog">
   <div class="page-glow" aria-hidden="true"></div>
   <div id="site-header"></div>
 
   <main class="max-w-4xl mx-auto px-6 py-20">
-    <article class="reveal" id="post-content" aria-live="polite">
-      <p class="font-sans text-sm text-gray-500">Carregando...</p>
-      <h1 class="font-serif text-4xl font-bold text-gray-900 dark:text-white mt-4">Buscando publicação em Markdown</h1>
-      <p class="font-sans text-gray-600 dark:text-gray-400 mt-2">Aguarde alguns instantes.</p>
-    </article>
+    <section class="mb-16 border-b border-gray-200 dark:border-gray-800 pb-8">
+      <p class="font-sans text-sm font-bold uppercase tracking-widest text-primary mb-4">Análises Acadêmicas</p>
+      <h1 class="font-serif text-5xl md:text-7xl font-bold text-gray-900 dark:text-white leading-tight mb-6">Blog</h1>
+      <p class="font-sans text-xl text-gray-600 dark:text-gray-400 max-w-2xl">
+        Artigos extensos, ensaios de fôlego e investigações teóricas e empíricas produzidas pelos pesquisadores do Observatório.
+      </p>
+    </section>
+
+    <section class="flex flex-wrap gap-2 mb-12" id="blog-filters" aria-label="Filtros de categoria">
+      <button class="filter active px-4 py-2 font-sans text-xs font-bold uppercase tracking-wider border border-gray-300 dark:border-gray-700 text-gray-700 dark:text-gray-300 hover:border-primary hover:text-primary transition-colors rounded-none" data-filter="all">Todos</button>
+    </section>
+
+    <section class="flex flex-col gap-0" id="posts-grid" aria-live="polite">
+      <p class="font-sans text-sm text-gray-500">Buscando posts...</p>
+    </section>
   </main>
 
   <div id="site-footer"></div>
 
-  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-  <script type="module" src="script.js"></script>
+  <script type="module" src="../script.js"></script>
 </body>
 </html>

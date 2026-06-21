@@ -1,3 +1,9 @@
+
+const getPath = (path) => {
+  const base = window.location.pathname.includes('/pages/') ? '../' : '';
+  return base + path;
+};
+
 import { db } from './firebase-config.js';
 import { collection, getDocs, getDoc, doc } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-firestore.js";
 
@@ -39,14 +45,22 @@ async function mountLayoutComponent(selector, path) {
     return;
   }
 
-  const html = await fetchText(path);
+  let html = await fetchText(path);
+  
+  const isPagesDir = window.location.pathname.includes('/pages/');
+  const basePath = isPagesDir ? '../' : '';
+  const pagesPath = isPagesDir ? '' : 'pages/';
+
+  html = html.replace(/\{\{BASE_PATH\}\}/g, basePath);
+  html = html.replace(/\{\{PAGES_PATH\}\}/g, pagesPath);
+
   mountPoint.outerHTML = html;
 }
 
 async function loadLayoutComponents() {
   await Promise.all([
-    mountLayoutComponent('#site-header', 'components/header.html'),
-    mountLayoutComponent('#site-footer', 'components/footer.html'),
+    mountLayoutComponent('#site-header', getPath('components/header.html')),
+    mountLayoutComponent('#site-footer', getPath('components/footer.html')),
   ]);
 
   setActiveNavigation();
@@ -447,8 +461,8 @@ function buildPostCard(post) {
     : '';
 
   return `
-    <article class="post-card group relative grid grid-cols-1 md:grid-cols-12 gap-6 items-start py-10 border-b border-gray-200 dark:border-gray-800 last:border-0" data-categories="${escapeHtml(categoryTokens)}" data-href="post.html?slug=${encodeURIComponent(post.slug)}">
-      <a class="absolute inset-0 z-10" href="post.html?slug=${encodeURIComponent(post.slug)}" aria-label="${escapeHtml(post.title)}"></a>
+    <article class="post-card group relative grid grid-cols-1 md:grid-cols-12 gap-6 items-start py-10 border-b border-gray-200 dark:border-gray-800 last:border-0" data-categories="${escapeHtml(categoryTokens)}" data-href="${getPath('pages/post.html?slug=')}${encodeURIComponent(post.slug)}">
+      <a class="absolute inset-0 z-10" href="${getPath('pages/post.html?slug=')}${encodeURIComponent(post.slug)}" aria-label="${escapeHtml(post.title)}"></a>
       <div class="col-span-1 md:col-span-2 flex flex-col md:text-right pt-1">
         <time class="font-sans text-sm font-bold text-gray-900 dark:text-gray-100">${escapeHtml(post.date)}</time>
         <span class="font-sans text-xs font-bold uppercase tracking-widest text-primary mt-1">${escapeHtml(categoryLabelText)}</span>
@@ -459,7 +473,7 @@ function buildPostCard(post) {
         ${authorsText ? `<p class="font-sans text-sm font-semibold text-gray-500 mt-4">Por: ${authorsText}</p>` : ''}
       </div>
       <div class="col-span-1 md:col-span-3">
-        <img src="${escapeHtml(post.image || 'posts/img/place-holder.png')}" alt="Capa do post: ${escapeHtml(post.title)}" class="${post.image ? 'w-full aspect-[4/3] object-cover rounded shadow-sm grayscale group-hover:grayscale-0 transition-all duration-500' : 'w-full aspect-[4/3] object-contain rounded opacity-80 dark:invert dark:opacity-50 transition-all duration-500'}">
+        <img src="${escapeHtml(post.image || getPath('posts/img/place-holder.png'))}" alt="Capa do post: ${escapeHtml(post.title)}" class="${post.image ? 'w-full aspect-[4/3] object-cover rounded shadow-sm grayscale group-hover:grayscale-0 transition-all duration-500' : 'w-full aspect-[4/3] object-contain rounded opacity-80 dark:invert dark:opacity-50 transition-all duration-500'}">
       </div>
     </article>
   `;
@@ -468,7 +482,7 @@ function buildPostCard(post) {
 function buildHomePreviewCard(post) {
   return `
     <article class="group relative flex flex-col items-start pb-8 border-b border-gray-200 dark:border-gray-800 last:border-0 last:pb-0">
-      <a class="absolute inset-0 z-10" href="post.html?slug=${encodeURIComponent(post.slug)}" aria-label="${escapeHtml(post.title)}"></a>
+      <a class="absolute inset-0 z-10" href="${getPath('pages/post.html?slug=')}${encodeURIComponent(post.slug)}" aria-label="${escapeHtml(post.title)}"></a>
       <div class="flex items-center gap-3 mb-3">
         <time class="font-sans text-xs font-bold uppercase tracking-widest text-gray-400 dark:text-gray-500">${escapeHtml(post.date)}</time>
         <span class="w-1 h-1 rounded-full bg-primary"></span>
@@ -908,7 +922,7 @@ async function loadPostPage() {
 
     const isNews = post.tipo === 'notícia' || post.tipo === 'noticia';
     const backText = isNews ? 'Voltar para Notícias' : 'Voltar para o Blog';
-    const backUrl = isNews ? 'noticias.html' : 'blog.html';
+    const backUrl = isNews ? getPath('pages/noticias.html') : getPath('pages/blog.html');
 
     document.title = `${title} | OEDLA`;
     article.innerHTML = `
@@ -1008,8 +1022,8 @@ async function loadIntegranteProfilePage() {
           ${authoredPosts
             .map(
               (post) => `
-                <article class="group relative py-8 border-b border-gray-200 dark:border-gray-800 last:border-0 last:pb-0 flex flex-col items-start" data-href="post.html?slug=${encodeURIComponent(post.slug)}">
-                  <a class="absolute inset-0 z-10" href="post.html?slug=${encodeURIComponent(post.slug)}" aria-label="${escapeHtml(post.title)}"></a>
+                <article class="group relative py-8 border-b border-gray-200 dark:border-gray-800 last:border-0 last:pb-0 flex flex-col items-start" data-href="${getPath('pages/post.html?slug=')}${encodeURIComponent(post.slug)}">
+                  <a class="absolute inset-0 z-10" href="${getPath('pages/post.html?slug=')}${encodeURIComponent(post.slug)}" aria-label="${escapeHtml(post.title)}"></a>
                   <div class="flex items-center gap-3 mb-3">
                     <time class="font-sans text-xs font-bold uppercase tracking-widest text-gray-400 dark:text-gray-500">${escapeHtml(post.date)}</time>
                     <span class="w-1 h-1 rounded-full bg-primary"></span>
@@ -1029,7 +1043,7 @@ async function loadIntegranteProfilePage() {
   document.title = `${nome} | OEDLA`;
   container.innerHTML = `
     <div class="mb-12">
-      <p class="font-sans text-sm font-bold uppercase tracking-widest text-primary mb-6"><a href="quemsomos.html" class="hover:text-gray-900 dark:hover:text-white transition-colors">&larr; Voltar para Equipe</a></p>
+      <p class="font-sans text-sm font-bold uppercase tracking-widest text-primary mb-6"><a href="${getPath('pages/quemsomos.html')}" class="hover:text-gray-900 dark:hover:text-white transition-colors">&larr; Voltar para Equipe</a></p>
       <div class="flex flex-col md:flex-row items-center md:items-start gap-8">
         ${imagem ? `<div class="w-32 h-32 md:w-48 md:h-48 shrink-0"><img class="w-full h-full object-cover rounded-full transition-all duration-500 shadow-md" src="${imagem}" alt="Foto de ${nome}" loading="lazy"></div>` : '<div class="w-32 h-32 md:w-48 md:h-48 shrink-0 rounded-full bg-gray-200 dark:bg-gray-800 shadow-md"></div>'}
         <div class="flex flex-col items-center md:items-start text-center md:text-left">

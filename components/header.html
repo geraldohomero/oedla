@@ -1,7 +1,7 @@
 <header
   class="site-header sticky top-0 z-50 w-full border-b border-gray-200 dark:border-gray-800 bg-light/90 dark:bg-dark/90 backdrop-blur-md relative overflow-hidden">
   <div class="max-w-5xl mx-auto px-6 py-5 flex flex-col md:flex-row justify-between items-center gap-4 relative z-10">
-    <a href="index.html" class="flex flex-col items-center md:items-start group relative">
+    <a href="{{BASE_PATH}}index.html" class="flex flex-col items-center md:items-start group relative">
       <div class="relative">
         <div
           class="absolute left-[58%] md:left-[59%] top-[10%] bottom-[0%] w-20 md:w-32 bg-primary z-0 opacity-80 mix-blend-multiply dark:mix-blend-normal pointer-events-none rounded-sm transition-all duration-300 group-hover:scale-105">
@@ -9,7 +9,7 @@
         <span
           class="font-serif text-3xl md:text-4xl font-bold tracking-tight text-gray-900 dark:text-white transition-colors relative z-20">OEDLA<span
             class="text-primary">.</span></span>
-        <img src="assets/img/latin_america_map.png" alt=""
+        <img src="{{BASE_PATH}}assets/img/latin_america_map.png" alt=""
           class="absolute left-[68%] md:left-[68%] top-1/2 -translate-y-[45%] h-16 md:h-24 w-auto opacity-20 dark:opacity-60 dark:invert pointer-events-none z-10">
       </div>
       <span
@@ -25,14 +25,14 @@
     </button>
 
     <nav class="main-nav hidden md:flex gap-6 items-center" id="main-nav" aria-label="Navegação principal">
-      <a href="index.html" data-page="home"
+      <a href="{{BASE_PATH}}index.html" data-page="home"
         class="font-sans text-sm font-semibold text-gray-700 hover:text-primary dark:text-gray-300 dark:hover:text-primary transition-colors [&.active]:text-primary border-b-2 border-transparent [&.active]:border-primary pb-1">Início</a>
-      <a href="quemsomos.html" data-page="about"
+      <a href="{{PAGES_PATH}}quemsomos.html" data-page="about"
         class="font-sans text-sm font-semibold text-gray-700 hover:text-primary dark:text-gray-300 dark:hover:text-primary transition-colors [&.active]:text-primary border-b-2 border-transparent [&.active]:border-primary pb-1">Quem
         somos</a>
-      <a href="blog.html" data-page="blog"
+      <a href="{{PAGES_PATH}}blog.html" data-page="blog"
         class="font-sans text-sm font-semibold text-gray-700 hover:text-primary dark:text-gray-300 dark:hover:text-primary transition-colors [&.active]:text-primary border-b-2 border-transparent [&.active]:border-primary pb-1">Blog</a>
-      <a href="noticias.html" data-page="noticias"
+      <a href="{{PAGES_PATH}}noticias.html" data-page="noticias"
         class="font-sans text-sm font-semibold text-gray-700 hover:text-primary dark:text-gray-300 dark:hover:text-primary transition-colors [&.active]:text-primary border-b-2 border-transparent [&.active]:border-primary pb-1">Notícias</a>
 
       <button

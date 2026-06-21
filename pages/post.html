@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Integrante | OEDLA</title>
-  <meta name="description" content="Perfil de integrante do OEDLA.">
+  <title>Artigo | OEDLA</title>
+  <meta name="description" content="Publicações, análises e notícias do OEDLA carregadas dinamicamente.">
   <script>
     (function () {
       const themeKey = 'oedla-theme';
@@ -47,7 +47,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600;1,700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="../styles.css">
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
     tailwind.config = {
@@ -56,20 +56,21 @@
     }
   </script>
 </head>
-<body data-page="about">
+<body data-page="post">
   <div class="page-glow" aria-hidden="true"></div>
   <div id="site-header"></div>
 
   <main class="max-w-4xl mx-auto px-6 py-20">
-    <article class="reveal" id="integrante-profile" aria-live="polite">
+    <article class="reveal" id="post-content" aria-live="polite">
       <p class="font-sans text-sm text-gray-500">Carregando...</p>
-      <h1 class="font-serif text-4xl font-bold text-gray-900 dark:text-white mt-4">Buscando perfil</h1>
+      <h1 class="font-serif text-4xl font-bold text-gray-900 dark:text-white mt-4">Buscando publicação em Markdown</h1>
       <p class="font-sans text-gray-600 dark:text-gray-400 mt-2">Aguarde alguns instantes.</p>
     </article>
   </main>
 
   <div id="site-footer"></div>
 
-  <script type="module" src="script.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <script type="module" src="../script.js"></script>
 </body>
 </html>
