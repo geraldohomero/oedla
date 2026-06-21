@@ -307,25 +307,24 @@ function buildIntegranteCard(person) {
   const slug = String(person.__slug || '').trim();
   const profileUrl = slug ? buildIntegranteProfileUrl(slug) : '';
   const nameMarkup = profileUrl
-    ? `<a class="integrante-name-link" href="${profileUrl}" aria-label="Ver perfil de ${nome}"><h2 class="integrante-nome">${nome}</h2></a>`
-    : `<h2 class="integrante-nome">${nome}</h2>`;
+    ? `<a class="relative z-20 hover:text-primary transition-colors" href="${profileUrl}" aria-label="Ver perfil de ${nome}"><h2 class="font-serif text-2xl font-bold text-gray-900 dark:text-gray-100">${nome}</h2></a>`
+    : `<h2 class="font-serif text-2xl font-bold text-gray-900 dark:text-gray-100">${nome}</h2>`;
   const imageMarkup = imagem
     ? `${profileUrl
-      ? `<a class="integrante-avatar-link" href="${profileUrl}" aria-hidden="true" tabindex="-1"><img class="integrante-avatar" src="${imagem}" alt="Foto de ${nome}" loading="lazy"></a>`
-      : `<img class="integrante-avatar" src="${imagem}" alt="Foto de ${nome}" loading="lazy">`
+      ? `<a class="relative z-20 block w-20 h-20 md:w-24 md:h-24 shrink-0" href="${profileUrl}" aria-hidden="true" tabindex="-1"><img class="w-full h-full object-cover rounded-full transition-all duration-500" src="${imagem}" alt="Foto de ${nome}" loading="lazy"></a>`
+      : `<img class="w-20 h-20 md:w-24 md:h-24 shrink-0 object-cover rounded-full" src="${imagem}" alt="Foto de ${nome}" loading="lazy">`
     }`
-    : '';
+    : `<div class="w-20 h-20 md:w-24 md:h-24 shrink-0 rounded-full bg-gray-200 dark:bg-gray-800"></div>`;
 
   return `
-    <article class="post-card integrante-card">
-      <div class="integrante-head">
-        ${imageMarkup}
-        <div class="integrante-head-text">
-          ${nameMarkup}
-          <p class="integrante-role">${cargo} • ${formacao}</p>
-        </div>
+    <article class="group relative flex items-start gap-6 py-8 border-b border-gray-200 dark:border-gray-800 last:border-0">
+      ${profileUrl ? `<a class="absolute inset-0 z-10" href="${profileUrl}" aria-label="${nome}"></a>` : ''}
+      ${imageMarkup}
+      <div class="flex flex-col gap-2">
+        ${nameMarkup}
+        <p class="font-sans text-xs md:text-sm font-bold uppercase tracking-widest text-primary">${cargo} • ${formacao}</p>
+        <div class="relative z-20 mt-2">${links}</div>
       </div>
-      ${links}
     </article>
   `;
 }
@@ -442,31 +441,38 @@ function buildPostCard(post) {
   const categoryTokens = post.categories.join('|');
   const categoryLabelText = post.categoryLabels.join(' • ');
   const authorsText = post.authorLinks.length
-    ? `Por: ${post.authorLinks
-      .map((author) => (author.url ? `<a href="${author.url}" class="post-card-author-link">${escapeHtml(author.name)}</a>` : escapeHtml(author.name)))
+    ? `${post.authorLinks
+      .map((author) => (author.url ? `<a href="${author.url}" class="relative z-20 hover:text-primary transition-colors">${escapeHtml(author.name)}</a>` : escapeHtml(author.name)))
       .join(', ')}`
     : '';
 
   return `
-    <article class="post-card" data-categories="${escapeHtml(categoryTokens)}" data-href="post.html?slug=${encodeURIComponent(post.slug)}">
-      <a class="card-overlay-link" href="post.html?slug=${encodeURIComponent(post.slug)}" aria-label="${escapeHtml(post.title)}"></a>
-      <div class="post-card-content">
-        <p class="preview-meta">${escapeHtml(post.date)} • ${escapeHtml(categoryLabelText)}</p>
-        <h2>${escapeHtml(post.title)}</h2>
-        ${post.image ? `<div class="post-card-image-wrapper" style="margin: 1rem 0; border-radius: 4px; border-bottom: none;"><img src="${escapeHtml(post.image)}" alt="Capa do post: ${escapeHtml(post.title)}" class="post-card-image"></div>` : ''}
-        ${authorsText ? `<p class="preview-meta" style="margin-top: 0.5rem; margin-bottom: 0.5rem;">${authorsText}</p>` : ''}
-        <p>${escapeHtml(post.excerpt)}</p>
+    <article class="post-card group relative grid grid-cols-1 md:grid-cols-12 gap-6 items-start py-10 border-b border-gray-200 dark:border-gray-800 last:border-0" data-categories="${escapeHtml(categoryTokens)}" data-href="post.html?slug=${encodeURIComponent(post.slug)}">
+      <a class="absolute inset-0 z-10" href="post.html?slug=${encodeURIComponent(post.slug)}" aria-label="${escapeHtml(post.title)}"></a>
+      <div class="col-span-1 md:col-span-2 flex flex-col md:text-right pt-1">
+        <time class="font-sans text-sm font-bold text-gray-900 dark:text-gray-100">${escapeHtml(post.date)}</time>
+        <span class="font-sans text-xs font-bold uppercase tracking-widest text-primary mt-1">${escapeHtml(categoryLabelText)}</span>
       </div>
+      <div class="col-span-1 md:col-span-7">
+        <h2 class="font-serif text-3xl md:text-4xl font-bold text-gray-900 dark:text-gray-100 group-hover:text-primary transition-colors leading-tight mb-4">${escapeHtml(post.title)}</h2>
+        <p class="font-sans text-base text-gray-600 dark:text-gray-400 leading-relaxed">${escapeHtml(post.excerpt)}</p>
+        ${authorsText ? `<p class="font-sans text-sm font-semibold text-gray-500 mt-4">Por: ${authorsText}</p>` : ''}
+      </div>
+      ${post.image ? `<div class="col-span-1 md:col-span-3"><img src="${escapeHtml(post.image)}" alt="Capa do post: ${escapeHtml(post.title)}" class="w-full aspect-[4/3] object-cover rounded shadow-sm grayscale group-hover:grayscale-0 transition-all duration-500"></div>` : ''}
     </article>
   `;
 }
 
 function buildHomePreviewCard(post) {
   return `
-    <article class="preview-card" data-href="post.html?slug=${encodeURIComponent(post.slug)}">
-      <a class="card-overlay-link" href="post.html?slug=${encodeURIComponent(post.slug)}" aria-label="${escapeHtml(post.title)}"></a>
-      <p class="preview-meta">${escapeHtml(post.date)} • ${escapeHtml(post.categoryLabel)}</p>
-      <h3>${escapeHtml(post.title)}</h3>
+    <article class="group relative flex flex-col items-start pb-8 border-b border-gray-200 dark:border-gray-800 last:border-0 last:pb-0">
+      <a class="absolute inset-0 z-10" href="post.html?slug=${encodeURIComponent(post.slug)}" aria-label="${escapeHtml(post.title)}"></a>
+      <div class="flex items-center gap-3 mb-3">
+        <time class="font-sans text-xs font-bold uppercase tracking-widest text-gray-400 dark:text-gray-500">${escapeHtml(post.date)}</time>
+        <span class="w-1 h-1 rounded-full bg-primary"></span>
+        <span class="font-sans text-xs font-bold uppercase tracking-widest text-primary">${escapeHtml(post.categoryLabel)}</span>
+      </div>
+      <h3 class="font-serif text-2xl font-bold text-gray-900 dark:text-gray-100 group-hover:text-primary transition-colors leading-tight">${escapeHtml(post.title)}</h3>
     </article>
   `;
 }
@@ -633,12 +639,12 @@ function buildDynamicFilters(posts) {
   const categoryButtons = [...categoryMap.entries()]
     .map(
       ([category, label]) =>
-        `<button class="filter" data-filter="${escapeHtml(category)}">${escapeHtml(label)}</button>`
+        `<button class="filter px-4 py-2 font-sans text-xs font-bold uppercase tracking-wider border border-gray-300 dark:border-gray-700 text-gray-700 dark:text-gray-300 hover:border-primary hover:text-primary transition-colors rounded-none" data-filter="${escapeHtml(category)}">${escapeHtml(label)}</button>`
     )
     .join('');
 
   filtersContainer.innerHTML = `
-    <button class="filter active" data-filter="all">Todos</button>
+    <button class="filter active px-4 py-2 font-sans text-xs font-bold uppercase tracking-wider border border-gray-300 dark:border-gray-700 text-gray-700 dark:text-gray-300 hover:border-primary hover:text-primary transition-colors rounded-none" data-filter="all">Todos</button>
     ${categoryButtons}
   `;
 }
@@ -660,7 +666,7 @@ function wireFilters() {
       posts.forEach((post) => {
         const categories = (post.dataset.categories || '').split('|').filter(Boolean);
         const match = selected === 'all' || categories.includes(selected);
-        post.style.display = match ? 'block' : 'none';
+        post.style.display = match ? '' : 'none';
       });
     });
   });
@@ -904,27 +910,39 @@ async function loadPostPage() {
 
     document.title = `${title} | OEDLA`;
     article.innerHTML = `
-      <div class="post-layout">
-        <div class="post-main">
-          <p class="preview-meta">${escapeHtml(date)} • ${escapeHtml(categoryLabels.join(' • '))}</p>
-          <h1>${escapeHtml(title)}</h1>
-          ${image ? `<div class="post-detail-image-wrapper"><img src="${escapeHtml(image)}" alt="Capa do post: ${escapeHtml(title)}" class="post-detail-image"></div>` : ''}
-          ${authorLinks.length
-            ? `<p class="preview-meta">Por: ${authorLinks
-              .map((author) => (author.url ? `<a href="${author.url}">${escapeHtml(author.name)}</a>` : escapeHtml(author.name)))
-              .join(', ')}</p>`
-            : ''}
-          <p class="post-lead">${escapeHtml(excerpt)}</p>
-          <details class="post-toc-mobile">
-            <summary>Sumário do artigo</summary>
-            ${tocList}
-          </details>
-          <div class="post-markdown">${tocResult.html}</div>
-          <p><a href="${backUrl}">${backText}</a></p>
+      <div class="mb-12">
+        <p class="font-sans text-sm font-bold uppercase tracking-widest text-primary mb-6"><a href="${backUrl}" class="hover:text-gray-900 dark:hover:text-white transition-colors">&larr; ${backText}</a></p>
+        <div class="flex items-center gap-3 mb-6">
+          <time class="font-sans text-xs font-bold uppercase tracking-widest text-gray-400 dark:text-gray-500">${escapeHtml(date)}</time>
+          <span class="w-1 h-1 rounded-full bg-primary"></span>
+          <span class="font-sans text-xs font-bold uppercase tracking-widest text-primary">${escapeHtml(categoryLabels.join(' • '))}</span>
         </div>
-        <aside class="post-toc" aria-label="Sumário do artigo">
-          <h2>Sumário</h2>
-          ${tocList}
+        <h1 class="font-serif text-4xl md:text-6xl font-bold text-gray-900 dark:text-white leading-tight mb-8">${escapeHtml(title)}</h1>
+        ${authorLinks.length
+          ? `<p class="font-sans text-sm font-bold text-gray-500 uppercase tracking-widest mb-8">Por: ${authorLinks
+            .map((author) => (author.url ? `<a href="${author.url}" class="text-gray-900 dark:text-white hover:text-primary transition-colors">${escapeHtml(author.name)}</a>` : escapeHtml(author.name)))
+            .join(', ')}</p>`
+          : ''}
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
+        <div class="lg:col-span-8 flex flex-col">
+          ${image ? `<div class="mb-10 w-full"><img src="${escapeHtml(image)}" alt="Capa do post: ${escapeHtml(title)}" class="w-full h-auto aspect-video object-cover rounded grayscale hover:grayscale-0 transition-all duration-500 shadow-md"></div>` : ''}
+          <p class="font-serif text-xl md:text-2xl text-gray-700 dark:text-gray-300 leading-relaxed italic mb-12 border-l-4 border-primary pl-6">${escapeHtml(excerpt)}</p>
+          
+          <details class="lg:hidden mb-12 border border-gray-200 dark:border-gray-800 rounded p-4">
+            <summary class="font-sans text-sm font-bold uppercase tracking-widest text-gray-900 dark:text-white cursor-pointer">Sumário do artigo</summary>
+            <div class="mt-4 font-sans text-sm text-gray-600 dark:text-gray-400">${tocList}</div>
+          </details>
+
+          <div class="post-markdown max-w-none text-gray-800 dark:text-gray-200 leading-relaxed font-sans text-lg">${tocResult.html}</div>
+          
+          <p class="mt-16 pt-8 border-t border-gray-200 dark:border-gray-800 font-sans text-sm font-bold uppercase tracking-widest"><a href="${backUrl}" class="hover:text-primary transition-colors">&larr; ${backText}</a></p>
+        </div>
+
+        <aside class="hidden lg:block lg:col-span-4 sticky top-32" aria-label="Sumário do artigo">
+          <h2 class="font-sans text-xs font-bold uppercase tracking-widest text-gray-400 dark:text-gray-500 mb-6">Sumário</h2>
+          <div class="font-sans text-sm text-gray-600 dark:text-gray-400 border-l border-gray-200 dark:border-gray-800 pl-6">${tocList}</div>
         </aside>
       </div>
     `;
@@ -982,42 +1000,49 @@ async function loadIntegranteProfilePage() {
 
   const postsMarkup = authoredPosts.length
     ? `
-      <div class="author-posts-list">
+      <div class="flex flex-col gap-0 border-t border-gray-200 dark:border-gray-800 mt-8 pt-8">
         ${authoredPosts
           .map(
             (post) => `
-              <article class="post-card" data-href="post.html?slug=${encodeURIComponent(post.slug)}">
-                <a class="card-overlay-link" href="post.html?slug=${encodeURIComponent(post.slug)}" aria-label="${escapeHtml(post.title)}"></a>
-                <div class="post-card-content">
-                  <p class="preview-meta">${escapeHtml(post.date)} • ${escapeHtml(post.categoryLabels.join(' • '))}</p>
-                  <h3>${escapeHtml(post.title)}</h3>
-                  <p>${escapeHtml(post.excerpt)}</p>
+              <article class="group relative py-8 border-b border-gray-200 dark:border-gray-800 last:border-0 last:pb-0 flex flex-col items-start" data-href="post.html?slug=${encodeURIComponent(post.slug)}">
+                <a class="absolute inset-0 z-10" href="post.html?slug=${encodeURIComponent(post.slug)}" aria-label="${escapeHtml(post.title)}"></a>
+                <div class="flex items-center gap-3 mb-3">
+                  <time class="font-sans text-xs font-bold uppercase tracking-widest text-gray-400 dark:text-gray-500">${escapeHtml(post.date)}</time>
+                  <span class="w-1 h-1 rounded-full bg-primary"></span>
+                  <span class="font-sans text-xs font-bold uppercase tracking-widest text-primary">${escapeHtml(post.categoryLabels.join(' • '))}</span>
                 </div>
+                <h3 class="font-serif text-2xl font-bold text-gray-900 dark:text-gray-100 group-hover:text-primary transition-colors leading-tight mb-2">${escapeHtml(post.title)}</h3>
+                <p class="font-sans text-sm text-gray-600 dark:text-gray-400">${escapeHtml(post.excerpt)}</p>
               </article>
             `
           )
           .join('')}
       </div>
     `
-    : '<p class="preview-meta">Este integrante ainda não possui publicações.</p>';
+    : '<p class="font-sans text-sm text-gray-500 italic mt-8">Este integrante ainda não possui publicações.</p>';
 
   document.title = `${nome} | OEDLA`;
   container.innerHTML = `
-    <p class="preview-meta">Perfil de integrante</p>
-    <div class="integrante-head">
-      ${imagem ? `<img class="integrante-avatar integrante-avatar--profile" src="${imagem}" alt="Foto de ${nome}" loading="lazy">` : ''}
-      <div class="integrante-head-text">
-        <h1 class="integrante-nome">${nome}</h1>
-        <p class="integrante-role">${cargo}${cargo && formacao ? ' • ' : ''}${formacao}</p>
+    <div class="mb-12">
+      <p class="font-sans text-sm font-bold uppercase tracking-widest text-primary mb-6"><a href="quemsomos.html" class="hover:text-gray-900 dark:hover:text-white transition-colors">&larr; Voltar para Equipe</a></p>
+      <div class="flex flex-col md:flex-row items-center md:items-start gap-8">
+        ${imagem ? `<div class="w-32 h-32 md:w-48 md:h-48 shrink-0"><img class="w-full h-full object-cover rounded-full transition-all duration-500 shadow-md" src="${imagem}" alt="Foto de ${nome}" loading="lazy"></div>` : '<div class="w-32 h-32 md:w-48 md:h-48 shrink-0 rounded-full bg-gray-200 dark:bg-gray-800 shadow-md"></div>'}
+        <div class="flex flex-col items-center md:items-start text-center md:text-left">
+          <h1 class="font-serif text-4xl md:text-6xl font-bold text-gray-900 dark:text-white leading-tight">${nome}</h1>
+          <p class="font-sans text-sm md:text-base font-bold uppercase tracking-widest text-primary mt-2">${cargo}${cargo && formacao ? ' • ' : ''}${formacao}</p>
+          <div class="mt-6 flex gap-3 relative z-20">${links}</div>
+        </div>
       </div>
     </div>
-    <p class="integrante-bio">${minibiografia}</p>
-    ${links}
-    <section class="integrante-profile-posts">
-      <h2>Publicações deste autor</h2>
+    
+    <div class="font-sans text-lg text-gray-700 dark:text-gray-300 leading-relaxed max-w-3xl border-t border-gray-200 dark:border-gray-800 pt-10">
+      ${minibiografia ? `<p>${minibiografia}</p>` : ''}
+    </div>
+
+    <section class="mt-20 pt-10 border-t border-gray-200 dark:border-gray-800">
+      <h2 class="font-serif text-3xl font-bold text-gray-900 dark:text-white">Publicações do Autor</h2>
       ${postsMarkup}
     </section>
-    <p><a href="quemsomos.html">Voltar para Quem somos</a></p>
   `;
 }
 

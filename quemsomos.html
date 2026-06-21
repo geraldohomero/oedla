@@ -46,99 +46,94 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600;1,700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: ['class', '[data-theme="dark"]'],
+      theme: { extend: { colors: { primary: '#ffbf00' }, fontFamily: { sans: ['Inter', 'sans-serif'], serif: ['Playfair Display', 'serif'] } } }
+    }
+  </script>
 </head>
 <body data-page="about">
   <div class="page-glow" aria-hidden="true"></div>
   <div id="site-header"></div>
 
-  <main>
-    <section class="blog-hero reveal">
-      <p class="kicker">Sobre o Observatório</p>
-      <h1>Quem somos</h1>
-      <p>
-        O Observatório da Extrema-Direita Latino-americana (OEDLA), registrado no Diretório de Grupos de Pesquisa (DGP) do CNPq desde 12 de agosto de 2025, é sediado no Centro de Estudos Marxistas (CEMARX) da Unicamp.
-      </p>
-      <p>
-        Sob a coordenação do professor André Kaysel Velasco e Cruz, o grupo dedica-se ao estudo, pesquisa científica e difusão do conhecimento acerca das extremas-direitas contemporâneas na América Latina e suas conexões transnacionais.
-      </p>
-      <div class="social-links-block" aria-label="Nossas redes">
-        <p class="kicker">Nossas Redes</p>
-        <div class="social-links-actions" id="labiia-social-links">
-          <p class="preview-meta">Carregando redes...</p>
+  <main class="max-w-4xl mx-auto px-6 py-20">
+    <section class="mb-20">
+      <p class="font-sans text-sm font-bold uppercase tracking-widest text-primary mb-4">Sobre o Observatório</p>
+      <h1 class="font-serif text-5xl md:text-7xl font-bold text-gray-900 dark:text-white leading-tight mb-8">Quem somos</h1>
+      <div class="font-sans text-lg md:text-xl text-gray-700 dark:text-gray-300 leading-relaxed space-y-6">
+        <p>
+          O Observatório da Extrema-Direita Latino-americana (OEDLA), registrado no Diretório de Grupos de Pesquisa (DGP) do CNPq desde 12 de agosto de 2025, é sediado no Centro de Estudos Marxistas (CEMARX) da Unicamp.
+        </p>
+        <p>
+          Sob a coordenação do professor André Kaysel Velasco e Cruz, o grupo dedica-se ao estudo, pesquisa científica e difusão do conhecimento acerca das extremas-direitas contemporâneas na América Latina e suas conexões transnacionais.
+        </p>
+      </div>
+      <div class="mt-12 pt-8 border-t border-gray-200 dark:border-gray-800">
+        <p class="font-sans text-xs font-bold uppercase tracking-wider text-gray-400 dark:text-gray-500 mb-4">Nossas Redes</p>
+        <div class="flex flex-wrap gap-4" id="labiia-social-links">
+          <p class="font-sans text-sm text-gray-500">Carregando redes...</p>
         </div>
       </div>
     </section>
 
-    <section id="origem" class="mission-section reveal">
-      <div class="section-head">
-        <h2>Nossa Origem</h2>
-      </div>
-      <p class="mission-lead">
-        O grupo nasceu do projeto <em>"A Sagrada Família da Extrema-Direita ao Sul da América: uma análise comparada de Argentina, Bolívia, Brasil e Chile (2015-2025)"</em>, financiado pelo FAEPEX/Unicamp.
+    <section id="origem" class="mb-20">
+      <h2 class="font-serif text-3xl font-bold text-gray-900 dark:text-white mb-6">Nossa Origem</h2>
+      <p class="font-sans text-xl text-gray-800 dark:text-gray-200 font-medium mb-6">
+        O grupo nasceu do projeto <em class="italic font-serif">"A Sagrada Família da Extrema-Direita ao Sul da América: uma análise comparada de Argentina, Bolívia, Brasil e Chile (2015-2025)"</em>, financiado pelo FAEPEX/Unicamp.
       </p>
-      <p>
+      <p class="font-sans text-lg text-gray-600 dark:text-gray-400 leading-relaxed">
         O escopo inicial foi o estudo comparado do discurso ideológico das principais lideranças da extrema-direita na região entre a crise da "maré rosa" e a ascensão de novas expressões radicalizadas.
       </p>
     </section>
 
-    <section id="missao" class="mission-section reveal">
-      <div class="section-head">
-        <h2>Nossa Missão de Difusão</h2>
-      </div>
-      <p class="mission-lead">O OEDLA atua na difusão dos seguintes conteúdos:</p>
-      <div class="axis-grid axis-grid-2">
-        <article class="axis-card">
-          <h3>Produção Científica</h3>
-          <p>Divulgação da produção científica da equipe: artigos, capítulos e teses.</p>
-        </article>
-        <article class="axis-card">
-          <h3>Pesquisas Externas</h3>
-          <p>Difusão de pesquisas externas sobre a extrema-direita latino-americana.</p>
-        </article>
-        <article class="axis-card">
-          <h3>Parcerias Institucionais</h3>
-          <p>Parcerias com outros observatórios e grupos de pesquisa da área.</p>
-        </article>
-        <article class="axis-card">
-          <h3>Notas de Conjuntura</h3>
-          <p>Notas curtas e informes de conjuntura política sobre os movimentos da extrema-direita.</p>
-        </article>
-        <article class="axis-card">
-          <h3>Monitoramento de Mídia</h3>
-          <p>Monitoramento da imprensa e meios de comunicação relacionados ao tema.</p>
-        </article>
-        <article class="axis-card">
-          <h3>Repositório de Fontes</h3>
-          <p>Repositório de fontes primárias: discursos, documentos e material audiovisual.</p>
-        </article>
+    <section id="missao" class="mb-20">
+      <h2 class="font-serif text-3xl font-bold text-gray-900 dark:text-white mb-6">Nossa Missão de Difusão</h2>
+      <p class="font-sans text-lg text-gray-600 dark:text-gray-400 mb-10">O OEDLA atua na difusão dos seguintes conteúdos:</p>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-10">
+        <div>
+          <h3 class="font-sans text-sm font-bold uppercase tracking-widest text-primary mb-2">Produção Científica</h3>
+          <p class="font-sans text-base text-gray-600 dark:text-gray-400">Divulgação da produção científica da equipe: artigos, capítulos e teses.</p>
+        </div>
+        <div>
+          <h3 class="font-sans text-sm font-bold uppercase tracking-widest text-primary mb-2">Pesquisas Externas</h3>
+          <p class="font-sans text-base text-gray-600 dark:text-gray-400">Difusão de pesquisas externas sobre a extrema-direita latino-americana.</p>
+        </div>
+        <div>
+          <h3 class="font-sans text-sm font-bold uppercase tracking-widest text-primary mb-2">Parcerias Institucionais</h3>
+          <p class="font-sans text-base text-gray-600 dark:text-gray-400">Parcerias com outros observatórios e grupos de pesquisa da área.</p>
+        </div>
+        <div>
+          <h3 class="font-sans text-sm font-bold uppercase tracking-widest text-primary mb-2">Notas de Conjuntura</h3>
+          <p class="font-sans text-base text-gray-600 dark:text-gray-400">Notas curtas e informes de conjuntura política sobre os movimentos da extrema-direita.</p>
+        </div>
+        <div>
+          <h3 class="font-sans text-sm font-bold uppercase tracking-widest text-primary mb-2">Monitoramento de Mídia</h3>
+          <p class="font-sans text-base text-gray-600 dark:text-gray-400">Monitoramento da imprensa e meios de comunicação relacionados ao tema.</p>
+        </div>
+        <div>
+          <h3 class="font-sans text-sm font-bold uppercase tracking-widest text-primary mb-2">Repositório de Fontes</h3>
+          <p class="font-sans text-base text-gray-600 dark:text-gray-400">Repositório de fontes primárias: discursos, documentos e material audiovisual.</p>
+        </div>
       </div>
     </section>
 
-    <section id="atividades" class="mission-section reveal">
-      <div class="section-head">
-        <h2>Atividades</h2>
+    <section id="atividades" class="mb-24">
+      <h2 class="font-serif text-3xl font-bold text-gray-900 dark:text-white mb-6">Atividades</h2>
+      <div class="font-sans text-lg text-gray-600 dark:text-gray-400 leading-relaxed space-y-6">
+        <p>Além da pesquisa, promovemos grupos de estudos mensais dedicados à leitura de obras das Ciências Sociais, Ciência Política e História.</p>
+        <p>Também organizamos seminários públicos no IFCH-Unicamp e estamos preparando o lançamento de um podcast com entrevistas a pesquisadores da área.</p>
       </div>
-      <p class="mission-lead">
-        Além da pesquisa, promovemos grupos de estudos mensais dedicados à leitura de obras das Ciências Sociais, Ciência Política e História.
-      </p>
-      <p>
-        Também organizamos seminários públicos no IFCH-Unicamp e estamos preparando o lançamento de um podcast com entrevistas a pesquisadores da área.
-      </p>
     </section>
 
-    <section class="reveal">
-      <div class="section-head">
-        <h2>Integrantes</h2>
+    <section>
+      <h2 class="font-serif text-3xl font-bold text-gray-900 dark:text-white mb-10 border-b border-gray-200 dark:border-gray-800 pb-4">Equipe</h2>
+      <div class="flex flex-col gap-0" id="integrantes-grid" aria-live="polite">
+        <p class="font-sans text-sm text-gray-500">Buscando integrantes...</p>
       </div>
-      <section class="posts-grid" id="integrantes-grid" aria-live="polite">
-        <article class="post-card">
-          <p class="preview-meta">Carregando...</p>
-          <h2>Buscando integrantes</h2>
-          <p>Se essa mensagem não sair, verifique se o servidor local está ativo.</p>
-        </article>
-      </section>
     </section>
   </main>
 

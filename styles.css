@@ -1,23 +1,23 @@
 :root {
-  --bg: #ffffff;
-  --surface: #fafafa;
-  --ink: #000000;
-  --muted: #555555;
+  --bg: #f8f9fa;
+  --surface: #ffffff;
+  --ink: #1a202c;
+  --muted: #4a5568;
   --accent: #ffbf00;
   --accent-2: #cc9800;
-  --stroke: #e0e0e0;
-  --shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
-  --bg-gradient-start: #ffffff;
-  --bg-gradient-end: #f6f6f6;
-  --page-glow-line: rgba(0, 0, 0, 0.02);
-  --hero-start: #fafafa;
-  --hero-end: #f0f0f0;
-  --accent-soft: rgba(255, 191, 0, 0.08);
+  --stroke: #e2e8f0;
+  --shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  --bg-gradient-start: #f8f9fa;
+  --bg-gradient-end: #edf2f7;
+  --page-glow-line: rgba(0, 0, 0, 0.03);
+  --hero-start: #ffffff;
+  --hero-end: #f8f9fa;
+  --accent-soft: rgba(255, 191, 0, 0.1);
   --code-bg: rgba(0, 0, 0, 0.04);
-  --glass-surface: rgba(255, 255, 255, 0.9);
+  --glass-surface: rgba(255, 255, 255, 0.85);
   --glass-surface-strong: rgba(255, 255, 255, 0.95);
   --glass-stroke: rgba(0, 0, 0, 0.08);
-  --glass-highlight: rgba(255, 191, 0, 0.03);
+  --glass-highlight: rgba(255, 191, 0, 0.05);
   --bg-node-a: rgba(255, 191, 0, 0.08);
   --bg-node-b: rgba(0, 0, 0, 0.03);
   --bg-node-c: rgba(0, 0, 0, 0.02);
@@ -28,28 +28,28 @@
 }
 
 :root[data-theme='dark'] {
-  --bg: #121212;
-  --surface: #1e1e1e;
-  --ink: #f3f4f6;
-  --muted: #a3a3a3;
+  --bg: #111827;
+  --surface: #1f2937;
+  --ink: #f9fafb;
+  --muted: #9ca3af;
   --accent: #ffbf00;
   --accent-2: #cc9800;
-  --stroke: #2e2e2e;
+  --stroke: #374151;
   --shadow: 0 10px 24px rgba(0, 0, 0, 0.5);
-  --bg-gradient-start: #1a1a1a;
-  --bg-gradient-end: #101010;
-  --page-glow-line: rgba(255, 255, 255, 0.03);
-  --hero-start: #1e1e1e;
-  --hero-end: #141414;
-  --accent-soft: rgba(255, 191, 0, 0.1);
+  --bg-gradient-start: #111827;
+  --bg-gradient-end: #030712;
+  --page-glow-line: rgba(255, 255, 255, 0.05);
+  --hero-start: #1f2937;
+  --hero-end: #111827;
+  --accent-soft: rgba(255, 191, 0, 0.15);
   --code-bg: rgba(255, 255, 255, 0.05);
-  --glass-surface: rgba(30, 30, 30, 0.8);
-  --glass-surface-strong: rgba(36, 36, 36, 0.95);
-  --glass-stroke: rgba(255, 255, 255, 0.06);
-  --glass-highlight: rgba(255, 191, 0, 0.03);
+  --glass-surface: rgba(31, 41, 55, 0.85);
+  --glass-surface-strong: rgba(31, 41, 55, 0.95);
+  --glass-stroke: rgba(255, 255, 255, 0.1);
+  --glass-highlight: rgba(255, 191, 0, 0.05);
   --bg-node-a: rgba(255, 191, 0, 0.08);
-  --bg-node-b: rgba(255, 255, 255, 0.01);
-  --bg-node-c: rgba(255, 255, 255, 0.005);
+  --bg-node-b: rgba(255, 255, 255, 0.02);
+  --bg-node-c: rgba(255, 255, 255, 0.01);
   --bg-line: rgba(255, 255, 255, 0.03);
 }
 
@@ -69,7 +69,7 @@ html {
 }
 
 body {
-  font-family: "Space Grotesk", sans-serif;
+  font-family: "Inter", sans-serif;
   color: var(--ink);
   background: linear-gradient(180deg, var(--bg-gradient-start) 0%, var(--bg-gradient-end) 100%);
   min-height: 100vh;
@@ -86,7 +86,7 @@ body::after {
 h1,
 h2,
 h3 {
-  font-family: "Fraunces", serif;
+  font-family: "Playfair Display", serif;
   line-height: 1.15;
   margin-top: 0;
   font-weight: 700;
@@ -113,8 +113,10 @@ a:hover {
   gap: 1rem;
   position: relative;
   z-index: 20;
-  background: var(--surface);
-  border: 1px solid var(--stroke);
+  background: var(--glass-surface);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--glass-stroke);
   border-radius: 8px;
   box-shadow: var(--shadow);
 }
@@ -174,7 +176,7 @@ a:hover {
 }
 
 .brand-logo-text {
-  font-family: "Fraunces", serif;
+  font-family: "Playfair Display", serif;
   font-weight: 700;
   font-size: 1.65rem;
   letter-spacing: -0.02em;
@@ -188,7 +190,7 @@ a:hover {
 }
 
 .brand-sub-text {
-  font-family: "Space Grotesk", sans-serif;
+  font-family: "Inter", sans-serif;
   font-size: 0.65rem;
   font-weight: 700;
   text-transform: uppercase;
@@ -367,7 +369,9 @@ a:hover {
   .btn-primary:hover {
     background: var(--accent);
     border-color: var(--accent);
-    color: #000000;
+    color: #111827;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   }
 
   .btn-ghost {
@@ -380,6 +384,7 @@ a:hover {
     border-color: var(--accent);
     background: var(--accent-soft);
     color: var(--accent);
+    transform: translateY(-2px);
   }
 
   .section-head {
@@ -409,37 +414,6 @@ a:hover {
     transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
   }
 
-  .preview-card {
-    display: flex;
-    flex-direction: column;
-    height: 100%;
-  }
-
-  .post-card {
-    background: var(--surface);
-    border: 1px solid var(--stroke);
-    border-radius: 6px;
-    padding: 0;
-    box-shadow: var(--shadow);
-    position: relative;
-    overflow: hidden;
-    transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
-    display: flex;
-    flex-direction: column;
-  }
-
-  .post-card:hover,
-  .preview-card:hover {
-    border-color: var(--accent);
-    transform: translateY(-2px);
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
-  }
-
-  :root[data-theme='dark'] .post-card:hover,
-  :root[data-theme='dark'] .preview-card:hover {
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
-  }
-
   .mission-section {
     margin-bottom: 3rem;
     padding-bottom: 2rem;
@@ -448,7 +422,7 @@ a:hover {
 
   .mission-lead {
     font-size: 1.2rem;
-    font-family: "Fraunces", serif;
+    font-family: "Playfair Display", serif;
     max-width: 80ch;
     margin-bottom: 1.8rem;
     color: var(--ink);
@@ -558,40 +532,6 @@ a:hover {
     color: var(--accent);
   }
 
-  .post-card h2 {
-    font-size: 1.45rem;
-    margin-bottom: 0.5rem;
-  }
-
-  .post-card p {
-    color: var(--muted);
-    margin-bottom: 1.2rem;
-    font-size: 0.95rem;
-  }
-
-  .post-card a {
-    display: inline-flex;
-    align-items: center;
-    font-size: 0.9rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-  }
-
-  /* Card overlay link — makes the whole card clickable */
-  .card-overlay-link {
-    position: absolute;
-    inset: 0;
-    z-index: 1;
-    border-radius: inherit;
-  }
-
-  .post-card a:not(.card-overlay-link),
-  .preview-card a:not(.card-overlay-link) {
-    position: relative;
-    z-index: 2;
-  }
-
   .post-lead {
     font-size: 1.15rem;
     color: var(--muted);
@@ -624,7 +564,7 @@ a:hover {
     letter-spacing: 0.05em;
     margin-bottom: 0.75rem;
     color: var(--ink);
-    font-family: "Space Grotesk", sans-serif;
+    font-family: "Inter", sans-serif;
     font-weight: 700;
   }
 

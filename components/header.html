@@ -1,21 +1,47 @@
-<header class="site-header">
-  <a class="brand" href="index.html" aria-label="Início">
-    <span class="brand-logo-text">OEDLA</span>
-    <span class="brand-sub-text">Observatório da Extrema Direita Latino-americana</span>
-  </a>
-  <button class="nav-toggle" type="button" aria-label="Abrir menu" aria-expanded="false" aria-controls="main-nav">
-    <span></span>
-    <span></span>
-    <span></span>
-  </button>
-  <nav class="main-nav" id="main-nav" aria-label="Navegação principal">
-    <a href="index.html" data-page="home">Início</a>
-    <a href="quemsomos.html" data-page="about">Quem somos</a>
-    <a href="blog.html" data-page="blog">Blog</a>
-    <a href="noticias.html" data-page="noticias">Notícias</a>
-    <button class="theme-toggle" type="button" aria-label="Ativar modo escuro" aria-pressed="false"
-      title="Alternar tema">
-      <span class="theme-toggle-icon" aria-hidden="true"></span>
+<header
+  class="site-header sticky top-0 z-50 w-full border-b border-gray-200 dark:border-gray-800 bg-light/90 dark:bg-dark/90 backdrop-blur-md relative overflow-hidden">
+  <div class="max-w-5xl mx-auto px-6 py-5 flex flex-col md:flex-row justify-between items-center gap-4 relative z-10">
+    <a href="index.html" class="flex flex-col items-center md:items-start group relative">
+      <div class="relative">
+        <div
+          class="absolute left-[58%] md:left-[59%] top-[10%] bottom-[0%] w-20 md:w-32 bg-primary z-0 opacity-80 mix-blend-multiply dark:mix-blend-normal pointer-events-none rounded-sm transition-all duration-300 group-hover:scale-105">
+        </div>
+        <span
+          class="font-serif text-3xl md:text-4xl font-bold tracking-tight text-gray-900 dark:text-white transition-colors relative z-20">OEDLA<span
+            class="text-primary">.</span></span>
+        <img src="assets/img/latin_america_map.png" alt=""
+          class="absolute left-[68%] md:left-[68%] top-1/2 -translate-y-[45%] h-16 md:h-24 w-auto opacity-20 dark:opacity-60 dark:invert pointer-events-none z-10">
+      </div>
+      <span
+        class="font-sans text-[0.65rem] font-bold uppercase tracking-widest text-gray-500 dark:text-gray-400 mt-1 relative z-20">Observatório
+        da Extrema Direita Latino-americana</span>
+    </a>
+
+    <button class="nav-toggle md:hidden p-2" type="button" aria-label="Abrir menu" aria-expanded="false"
+      aria-controls="main-nav">
+      <span class="block w-6 h-[2px] bg-gray-800 dark:bg-gray-200 mb-1"></span>
+      <span class="block w-6 h-[2px] bg-gray-800 dark:bg-gray-200 mb-1"></span>
+      <span class="block w-6 h-[2px] bg-gray-800 dark:bg-gray-200"></span>
     </button>
-  </nav>
+
+    <nav class="main-nav hidden md:flex gap-6 items-center" id="main-nav" aria-label="Navegação principal">
+      <a href="index.html" data-page="home"
+        class="font-sans text-sm font-semibold text-gray-700 hover:text-primary dark:text-gray-300 dark:hover:text-primary transition-colors [&.active]:text-primary border-b-2 border-transparent [&.active]:border-primary pb-1">Início</a>
+      <a href="quemsomos.html" data-page="about"
+        class="font-sans text-sm font-semibold text-gray-700 hover:text-primary dark:text-gray-300 dark:hover:text-primary transition-colors [&.active]:text-primary border-b-2 border-transparent [&.active]:border-primary pb-1">Quem
+        somos</a>
+      <a href="blog.html" data-page="blog"
+        class="font-sans text-sm font-semibold text-gray-700 hover:text-primary dark:text-gray-300 dark:hover:text-primary transition-colors [&.active]:text-primary border-b-2 border-transparent [&.active]:border-primary pb-1">Blog</a>
+      <a href="noticias.html" data-page="noticias"
+        class="font-sans text-sm font-semibold text-gray-700 hover:text-primary dark:text-gray-300 dark:hover:text-primary transition-colors [&.active]:text-primary border-b-2 border-transparent [&.active]:border-primary pb-1">Notícias</a>
+
+      <button
+        class="theme-toggle ml-2 w-8 h-8 rounded-full border border-gray-300 dark:border-gray-600 flex items-center justify-center text-gray-700 dark:text-gray-300 hover:text-primary hover:border-primary hover:bg-primary/10 transition-all"
+        type="button" aria-label="Alternar tema" title="Alternar tema">
+        <span
+          class="theme-toggle-icon block w-3.5 h-3.5 rounded-full border-2 border-current dark:border-transparent relative"
+          aria-hidden="true"></span>
+      </button>
+    </nav>
+  </div>
 </header>

@@ -46,32 +46,35 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600;1,700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: ['class', '[data-theme="dark"]'],
+      theme: { extend: { colors: { primary: '#ffbf00' }, fontFamily: { sans: ['Inter', 'sans-serif'], serif: ['Playfair Display', 'serif'] } } }
+    }
+  </script>
 </head>
 <body data-page="noticias">
   <div class="page-glow" aria-hidden="true"></div>
   <div id="site-header"></div>
 
-  <main class="blog-main">
-    <section class="blog-hero reveal">
-      <p class="kicker">Monitoramento e Atualidades</p>
-      <h1>Notícias</h1>
-      <p>
+  <main class="max-w-4xl mx-auto px-6 py-20">
+    <section class="mb-16 border-b border-gray-200 dark:border-gray-800 pb-8">
+      <p class="font-sans text-sm font-bold uppercase tracking-widest text-primary mb-4">Monitoramento e Atualidades</p>
+      <h1 class="font-serif text-5xl md:text-7xl font-bold text-gray-900 dark:text-white leading-tight mb-6">Notícias</h1>
+      <p class="font-sans text-xl text-gray-600 dark:text-gray-400 max-w-2xl">
         Boletins informativos, notas técnicas rápidas e acompanhamento de fatos conjunturais da extrema direita.
       </p>
     </section>
 
-    <section class="filters reveal" id="blog-filters" aria-label="Filtros de categoria">
-      <button class="filter active" data-filter="all">Todos</button>
+    <section class="flex flex-wrap gap-2 mb-12" id="blog-filters" aria-label="Filtros de categoria">
+      <button class="filter active px-4 py-2 font-sans text-xs font-bold uppercase tracking-wider border border-gray-300 dark:border-gray-700 text-gray-700 dark:text-gray-300 hover:border-primary hover:text-primary transition-colors rounded-none" data-filter="all">Todos</button>
     </section>
 
-    <section class="posts-grid reveal" id="posts-grid" aria-live="polite">
-      <article class="post-card" id="posts-loading">
-        <p class="preview-meta">Carregando...</p>
-        <h2>Buscando notícias em Markdown</h2>
-        <p>Se essa mensagem não sair, verifique se o servidor local está ativo.</p>
-      </article>
+    <section class="flex flex-col gap-0" id="posts-grid" aria-live="polite">
+      <p class="font-sans text-sm text-gray-500">Buscando notícias em Markdown...</p>
     </section>
   </main>
 
