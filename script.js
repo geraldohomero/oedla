@@ -458,7 +458,9 @@ function buildPostCard(post) {
         <p class="font-sans text-base text-gray-600 dark:text-gray-400 leading-relaxed">${escapeHtml(post.excerpt)}</p>
         ${authorsText ? `<p class="font-sans text-sm font-semibold text-gray-500 mt-4">Por: ${authorsText}</p>` : ''}
       </div>
-      ${post.image ? `<div class="col-span-1 md:col-span-3"><img src="${escapeHtml(post.image)}" alt="Capa do post: ${escapeHtml(post.title)}" class="w-full aspect-[4/3] object-cover rounded shadow-sm grayscale group-hover:grayscale-0 transition-all duration-500"></div>` : ''}
+      <div class="col-span-1 md:col-span-3">
+        <img src="${escapeHtml(post.image || 'posts/img/place-holder.png')}" alt="Capa do post: ${escapeHtml(post.title)}" class="${post.image ? 'w-full aspect-[4/3] object-cover rounded shadow-sm grayscale group-hover:grayscale-0 transition-all duration-500' : 'w-full aspect-[4/3] object-contain rounded opacity-80 dark:invert dark:opacity-50 transition-all duration-500'}">
+      </div>
     </article>
   `;
 }
@@ -731,7 +733,7 @@ async function loadBlogList() {
         sortTs: Date.parse(String(post.data)) || 0,
         title: post.titulo || 'Sem título',
         excerpt: post.resumo || 'Sem resumo.',
-        image: post.poster || '',
+        image: String(post.poster || '').trim(),
       };
     });
 
@@ -788,7 +790,7 @@ async function loadNoticiasList() {
         sortTs: Date.parse(String(post.data)) || 0,
         title: post.titulo || 'Sem título',
         excerpt: post.resumo || 'Sem resumo.',
-        image: post.poster || '',
+        image: String(post.poster || '').trim(),
       };
     });
 
@@ -833,7 +835,7 @@ async function loadHomeLatestPosts() {
         publishedAtTs: Number.isNaN(parsedDate) ? -1 : parsedDate,
         sourceIndex: postIndex,
         type: post.tipo === 'notícia' ? 'noticia' : 'blog',
-        image: post.poster || '',
+        image: String(post.poster || '').trim(),
       };
     });
 
@@ -899,7 +901,7 @@ async function loadPostPage() {
       }));
     const date = formatPostDatePtBr(post.data);
     const excerpt = post.resumo || '';
-    const image = post.poster || '';
+    const image = String(post.poster || '').trim();
 
     const tocResult = buildPostTocAndHtml(post.conteudo || '');
     const tocList = buildTocListMarkup(tocResult.toc);
@@ -1000,26 +1002,29 @@ async function loadIntegranteProfilePage() {
 
   const postsMarkup = authoredPosts.length
     ? `
-      <div class="flex flex-col gap-0 border-t border-gray-200 dark:border-gray-800 mt-8 pt-8">
-        ${authoredPosts
-          .map(
-            (post) => `
-              <article class="group relative py-8 border-b border-gray-200 dark:border-gray-800 last:border-0 last:pb-0 flex flex-col items-start" data-href="post.html?slug=${encodeURIComponent(post.slug)}">
-                <a class="absolute inset-0 z-10" href="post.html?slug=${encodeURIComponent(post.slug)}" aria-label="${escapeHtml(post.title)}"></a>
-                <div class="flex items-center gap-3 mb-3">
-                  <time class="font-sans text-xs font-bold uppercase tracking-widest text-gray-400 dark:text-gray-500">${escapeHtml(post.date)}</time>
-                  <span class="w-1 h-1 rounded-full bg-primary"></span>
-                  <span class="font-sans text-xs font-bold uppercase tracking-widest text-primary">${escapeHtml(post.categoryLabels.join(' • '))}</span>
-                </div>
-                <h3 class="font-serif text-2xl font-bold text-gray-900 dark:text-gray-100 group-hover:text-primary transition-colors leading-tight mb-2">${escapeHtml(post.title)}</h3>
-                <p class="font-sans text-sm text-gray-600 dark:text-gray-400">${escapeHtml(post.excerpt)}</p>
-              </article>
-            `
-          )
-          .join('')}
-      </div>
+      <section class="mt-20 pt-10 border-t border-gray-200 dark:border-gray-800">
+        <h2 class="font-serif text-3xl font-bold text-gray-900 dark:text-white">Publicações do Autor</h2>
+        <div class="flex flex-col gap-0 border-t border-gray-200 dark:border-gray-800 mt-8 pt-8">
+          ${authoredPosts
+            .map(
+              (post) => `
+                <article class="group relative py-8 border-b border-gray-200 dark:border-gray-800 last:border-0 last:pb-0 flex flex-col items-start" data-href="post.html?slug=${encodeURIComponent(post.slug)}">
+                  <a class="absolute inset-0 z-10" href="post.html?slug=${encodeURIComponent(post.slug)}" aria-label="${escapeHtml(post.title)}"></a>
+                  <div class="flex items-center gap-3 mb-3">
+                    <time class="font-sans text-xs font-bold uppercase tracking-widest text-gray-400 dark:text-gray-500">${escapeHtml(post.date)}</time>
+                    <span class="w-1 h-1 rounded-full bg-primary"></span>
+                    <span class="font-sans text-xs font-bold uppercase tracking-widest text-primary">${escapeHtml(post.categoryLabels.join(' • '))}</span>
+                  </div>
+                  <h3 class="font-serif text-2xl font-bold text-gray-900 dark:text-gray-100 group-hover:text-primary transition-colors leading-tight mb-2">${escapeHtml(post.title)}</h3>
+                  <p class="font-sans text-sm text-gray-600 dark:text-gray-400">${escapeHtml(post.excerpt)}</p>
+                </article>
+              `
+            )
+            .join('')}
+        </div>
+      </section>
     `
-    : '<p class="font-sans text-sm text-gray-500 italic mt-8">Este integrante ainda não possui publicações.</p>';
+    : '';
 
   document.title = `${nome} | OEDLA`;
   container.innerHTML = `
@@ -1039,10 +1044,7 @@ async function loadIntegranteProfilePage() {
       ${minibiografia ? `<p>${minibiografia}</p>` : ''}
     </div>
 
-    <section class="mt-20 pt-10 border-t border-gray-200 dark:border-gray-800">
-      <h2 class="font-serif text-3xl font-bold text-gray-900 dark:text-white">Publicações do Autor</h2>
-      ${postsMarkup}
-    </section>
+    ${postsMarkup}
   `;
 }
 
