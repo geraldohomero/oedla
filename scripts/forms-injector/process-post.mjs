@@ -51,7 +51,18 @@ export function processPost(bundle, repoRoot) {
     writeBinaryFromBase64(path.join(imgDir, `${key}.${ext}`), file.base64);
   });
 
-  const body = String(bundle.body || '').trim();
+ let body = String(bundle.body || '').trim();
+  
+  // Injeta a extensão exata nos placeholders do markdown (ex: transforma {1} em {1.png})
+  body = body.replace(/\{(\d+)(?:\.[a-zA-Z0-9]+)?\}/g, (match, num) => {
+    const file = files[num];
+    if (file && file.extension) {
+      const ext = String(file.extension).replace(/^\./, '').toLowerCase();
+      return `{${num}.${ext}}`;
+    }
+    return match;
+  });
+
   const markdown = `${buildFrontmatter(bundle, coverFileName)}${body}\n`;
   writeText(path.join(postDir, 'post.md'), markdown);
 
