@@ -29,6 +29,10 @@
     {
       "slug": "lancamento-observatorio-oedla",
       "file": "noticias/lancamento-observatorio-oedla/post.md"
+    },
+    {
+      "slug": "teste-3",
+      "file": "noticias/teste-3/post.md"
     }
   ]
 }
