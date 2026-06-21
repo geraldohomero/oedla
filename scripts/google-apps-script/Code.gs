@@ -67,11 +67,49 @@ function getResponseMap_(e) {
   return map;
 }
 
+function normalizeDriveFileId_(raw) {
+  const value = String(raw || '').trim();
+  if (!value) {
+    return '';
+  }
+
+  if (/^[a-zA-Z0-9_-]{10,}$/.test(value) && value.indexOf('/') === -1) {
+    return value;
+  }
+
+  const openIdMatch = value.match(/[?&]id=([a-zA-Z0-9_-]+)/);
+  if (openIdMatch) {
+    return openIdMatch[1];
+  }
+
+  const filePathMatch = value.match(/\/file\/d\/([a-zA-Z0-9_-]+)/);
+  if (filePathMatch) {
+    return filePathMatch[1];
+  }
+
+  return value;
+}
+
+function getFileIdsFromResponse_(value) {
+  if (!value) {
+    return [];
+  }
+
+  const parts = Array.isArray(value) ? value : String(value).split(',');
+  return parts
+    .map(function (part) {
+      return normalizeDriveFileId_(part);
+    })
+    .filter(Boolean);
+}
+
 function getFilePayload_(fileId) {
-  if (!fileId) {
+  const normalizedId = normalizeDriveFileId_(fileId);
+  if (!normalizedId) {
     return null;
   }
-  const file = DriveApp.getFileById(String(fileId).trim());
+
+  const file = DriveApp.getFileById(normalizedId);
   const blob = file.getBlob();
   const name = file.getName();
   const extMatch = name.match(/\.([a-zA-Z0-9]+)$/);
@@ -81,16 +119,101 @@ function getFilePayload_(fileId) {
   };
 }
 
-function getFileIdsFromResponse_(value) {
-  if (!value) {
-    return [];
+function isCapaFieldTitle_(title) {
+  const key = String(title || '').trim().toLocaleLowerCase('pt-BR');
+  return key === 'capa' || key === 'imagem de capa' || key === 'capa do post';
+}
+
+function isBodyImagesFieldTitle_(title) {
+  const key = String(title || '').trim().toLocaleLowerCase('pt-BR');
+  if (
+    key === 'imagens corpo'
+    || key === 'imagens do corpo'
+    || key === 'imagens corpo do texto'
+  ) {
+    return true;
   }
-  if (Array.isArray(value)) {
-    return value;
+  return key.indexOf('imagens') !== -1 && key.indexOf('corpo') !== -1;
+}
+
+function getBodyImagesFromResponseMap_(responseMap) {
+  const ids = [];
+  Object.keys(responseMap || {}).forEach(function (key) {
+    if (isBodyImagesFieldTitle_(key)) {
+      getFileIdsFromResponse_(responseMap[key]).forEach(function (id) {
+        ids.push(id);
+      });
+    }
+  });
+  return ids;
+}
+
+function collectPostBodyImageFiles_(e, r) {
+  const files = {};
+  const numbered = {};
+  const sequential = [];
+  const seenIds = {};
+
+  function addId_(id) {
+    const normalizedId = normalizeDriveFileId_(id);
+    if (!normalizedId || seenIds[normalizedId]) {
+      return;
+    }
+    seenIds[normalizedId] = true;
+    sequential.push(normalizedId);
   }
-  return String(value).split(',').map(function (part) {
-    return part.trim();
-  }).filter(Boolean);
+
+  e.response.getItemResponses().forEach(function (itemResponse) {
+    const title = String(itemResponse.getItem().getTitle() || '').trim();
+    if (isCapaFieldTitle_(title)) {
+      return;
+    }
+
+    if (itemResponse.getItem().getType() !== FormApp.ItemType.FILE_UPLOAD) {
+      return;
+    }
+
+    const ids = getFileIdsFromResponse_(itemResponse.getResponse());
+    if (!ids.length) {
+      return;
+    }
+
+    const numberedMatch = title.match(/imagem\s*(\d+)/i);
+    if (numberedMatch) {
+      numbered[numberedMatch[1]] = ids[0];
+      ids.slice(1).forEach(addId_);
+      return;
+    }
+
+    const titleKey = title.toLocaleLowerCase('pt-BR');
+    if (isBodyImagesFieldTitle_(titleKey)) {
+      ids.forEach(addId_);
+      return;
+    }
+
+    ids.forEach(addId_);
+  });
+
+  getBodyImagesFromResponseMap_(r).forEach(addId_);
+
+  Object.keys(numbered)
+    .sort(function (a, b) {
+      return Number(a) - Number(b);
+    })
+    .forEach(function (num) {
+      files[num] = getFilePayload_(numbered[num]);
+    });
+
+  let nextIndex = 1;
+  sequential.forEach(function (id) {
+    while (files[String(nextIndex)]) {
+      nextIndex += 1;
+    }
+    files[String(nextIndex)] = getFilePayload_(id);
+    nextIndex += 1;
+  });
+
+  return files;
 }
 
 function parseLinks_(rawLinks) {
@@ -155,17 +278,19 @@ function uploadBundleAndDispatch_(bundle) {
  *   Resumo
  *   Corpo         — markdown com {1}, {2}...
  *   Capa          — upload de arquivo
- *   Imagens corpo — upload (ordem = 1, 2, 3...)
+ *   Imagens corpo do texto — upload (ordem = 1, 2, 3...) OU "Imagem 1", "Imagem 2"...
  */
 function onPostFormSubmit(e) {
   const r = getResponseMap_(e);
-  const bodyImageIds = getFileIdsFromResponse_(r['Imagens corpo']);
   const files = {
     capa: getFilePayload_(getFileIdsFromResponse_(r['Capa'])[0]),
   };
 
-  bodyImageIds.forEach(function (fileId, index) {
-    files[String(index + 1)] = getFilePayload_(fileId);
+  const bodyImages = collectPostBodyImageFiles_(e, r);
+  Object.keys(bodyImages).forEach(function (key) {
+    if (bodyImages[key]) {
+      files[key] = bodyImages[key];
+    }
   });
 
   const bundle = {

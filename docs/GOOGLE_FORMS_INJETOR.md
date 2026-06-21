@@ -50,7 +50,15 @@ Repita para o Form de integrantes com `onIntegranteFormSubmit`.
 | Resumo           | Parágrafo         | Uma frase                        |
 | Corpo            | Parágrafo         | Markdown com `{1}`, `{2}`...     |
 | Capa             | Upload de arquivo | imagem de capa                   |
-| Imagens corpo    | Upload de arquivo | 1ª = `{1}`, 2ª = `{2}`, etc.     |
+| Imagens corpo do texto | Upload de arquivo | vários arquivos: 1º=`{1}`, 2º=`{2}` |
+| Imagem 1         | Upload (opcional) | alternativa: um campo por imagem |
+| Imagem 2         | Upload (opcional) | ...                              |
+
+Use **uma** das opções para imagens do corpo:
+- um campo **Imagens corpo do texto** com vários uploads, **ou**
+- campos separados **Imagem 1**, **Imagem 2**, etc.
+
+Títulos que contenham **"imagens"** e **"corpo"** também funcionam (ex.: `Imagens corpo do texto`).
 
 ### Campos do Form — Integrante
 
