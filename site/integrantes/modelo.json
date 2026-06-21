@@ -1,0 +1,38 @@
+{
+  "Nome": "nome da pessoa",
+  "Cargo": "cargo no LABIIA",
+  "Formação": "formacao principal",
+  "Imagem": "url da imagem de perfil ou integrantes/img/imagem.jpg",
+  "Minibiografia": "Resumo curto sobre trajetoria, pesquisa e temas de interesse.",
+  "Links importantes": [
+    {
+      "titulo": "Lattes",
+      "url": "https://exemplo.org/lattes"
+    },
+    {
+      "titulo": "ORCID",
+      "url": "https://orcid.org/0000-0000-0000-0000",
+      "icone": "fa-brands fa-orcid"
+    },
+    {
+      "titulo": "Instagram",
+      "url": "https://instagram.com/exemplo",
+      "icone": "fa-brands fa-instagram"
+    },
+    {
+      "titulo": "X",
+      "url": "https://x.com/exemplo",
+      "icone": "fa-brands fa-x-twitter"
+    },
+    {
+      "titulo": "Bluesky",
+      "url": "https://bsky.app/profile/exemplo.bsky.social",
+      "icone": "fa-brands fa-bluesky"
+    },
+    {
+      "titulo": "LinkedIn",
+      "url": "https://linkedin.com/in/exemplo",
+      "icone": "fa-brands fa-linkedin"
+    }
+  ]
+}

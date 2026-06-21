@@ -1,0 +1,23 @@
+{
+  "Nome": "Geraldo Homero do Couto Neto",
+  "Cargo": "Pesquisador",
+  "Formação": "Doutorando em Ciência Política (Unicamp)",
+  "Imagem": "integrantes/img/geraldo-homero-do-couto-neto.jpg",
+  "Minibiografia": "Bacharel, Licenciado e Mestre em História pela Universidade Federal de Juiz de Fora (UFJF) e Doutorando em Ciência Política pela Universidade Estadual de Campinas (Unicamp). Desenvolve pesquisa sobre a ação política e ideológica das direitas brasileiras no YouTube, com ênfase nos usos do passado, na desinformação e nas formas de negacionismo histórico disseminadas em ambientes digitais. Atua no campo da História Digital e das Humanidades Digitais, empregando Metodologia Crítica Digital e técnicas de análise de dados em Python, com especial interesse em métodos de web scraping, big data e análise multivariada de dados textuais, como modelagem de tópicos, aprendizado de máquina e análise de clusters.",
+  "Links importantes": [
+    {
+      "titulo": "Lattes",
+      "url": "http://lattes.cnpq.br/9924558848538635"
+    },
+    {
+      "titulo": "ORCID",
+      "url": "https://orcid.org/0000-0001-6686-7182",
+      "icone": "fa-brands fa-orcid"
+    },
+    {
+      "titulo": "LinkedIn",
+      "url": "https://linkedin.com/in/geraldohomero",
+      "icone": "fa-brands fa-linkedin"
+    }
+  ]
+}

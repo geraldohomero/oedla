@@ -1,0 +1,14 @@
+{
+  "redes": [
+    {
+      "titulo": "Instagram",
+      "url": "https://www.instagram.com/oedla.unicamp/",
+      "icone": "fa-brands fa-instagram"
+    },
+    {
+      "titulo": "X",
+      "url": "https://x.com/OEDLABrasil",
+      "icone": "fa-brands fa-x-twitter"
+    }
+  ]
+}

@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Artigo | OEDLA</title>
+  <meta name="description" content="Publicações, análises e notícias do OEDLA carregadas dinamicamente.">
+  <script>
+    (function () {
+      const themeKey = 'oedla-theme';
+      const backgroundKey = 'oedla-bg-image';
+      const bgLight = 'assets/img/background-light.png';
+      const bgDark = 'assets/img/background-dark.png';
+      let theme = '';
+      try {
+        const saved = localStorage.getItem(themeKey);
+        theme = saved === 'dark' || saved === 'light'
+          ? saved
+          : (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+      } catch (_error) {
+        theme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+      }
+
+      const expectedBackground = theme === 'dark' ? bgDark : bgLight;
+      let backgroundPath = expectedBackground;
+      try {
+        const storedBackground = localStorage.getItem(backgroundKey);
+        backgroundPath = storedBackground === expectedBackground
+          ? storedBackground
+          : expectedBackground;
+      } catch (_error) {
+        backgroundPath = expectedBackground;
+      }
+
+      const root = document.documentElement;
+      root.setAttribute('data-theme', theme);
+      root.style.setProperty('--page-bg-image', `url('${backgroundPath}')`);
+
+      try {
+        localStorage.setItem(backgroundKey, backgroundPath);
+      } catch (_error) {
+        // Ignore storage failures.
+      }
+    })();
+  </script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body data-page="post">
+  <div class="page-glow" aria-hidden="true"></div>
+  <div id="site-header"></div>
+
+  <main class="blog-main">
+    <article class="hero reveal" id="post-content" aria-live="polite">
+      <p class="preview-meta">Carregando...</p>
+      <h1>Buscando publicação em Markdown</h1>
+      <p>Aguarde alguns instantes.</p>
+    </article>
+  </main>
+
+  <div id="site-footer"></div>
+
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>

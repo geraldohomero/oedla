@@ -1,0 +1,18 @@
+{
+  "Nome": "André Kaysel",
+  "Cargo": "Coordenador",
+  "Formação": "Prof. Dr. em Ciência Política (Unicamp)",
+  "Imagem": "integrantes/img/andre.png",
+  "Minibiografia": "Bacharel em Ciências Sociais pela Faculdade de Filosofia, Letras e Ciências Humanas (FFLCH) da Universidade de São Paulo (USP) (2008), mestre (2010) e doutor (2014) em Ciência Política pela mesma instituição. Lecionou no curso de Ciência Política e Sociologia da Universidade Federal da Integração Latino-Americana (UNILA) (2013-2017) e foi pesquisador visitante na Universidade da Califórnia - Berkeley (2023/2024), atualmente é professor associado junto ao Departamento de Ciência Política da Universidade Estadual de Campinas (Unicamp) e coordenador do Laboratório de Pensamento Político (PEPOL), vinculado ao Centro de Estudos Marxistas (Cemarx), do qual também é diretor. Atua nos campos de estudo do pensamento político brasileiro e latino-americano.",
+  "Links importantes": [
+    {
+      "titulo": "Lattes",
+      "url": "http://lattes.cnpq.br/6093535016539029"
+    },
+    {
+      "titulo": "ORCID",
+      "url": "https://orcid.org/0000-0003-2467-5363",
+      "icone": "fa-brands fa-orcid"
+    }
+  ]
+}

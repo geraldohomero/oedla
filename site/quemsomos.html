@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quem somos | OEDLA</title>
+  <meta name="description" content="Missão, eixos de pesquisa e equipe do Observatório da Extrema Direita Latino-americana (OEDLA).">
+  <script>
+    (function () {
+      const themeKey = 'oedla-theme';
+      const backgroundKey = 'oedla-bg-image';
+      const bgLight = 'assets/img/background-light.png';
+      const bgDark = 'assets/img/background-dark.png';
+      let theme = '';
+      try {
+        const saved = localStorage.getItem(themeKey);
+        theme = saved === 'dark' || saved === 'light'
+          ? saved
+          : (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+      } catch (_error) {
+        theme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+      }
+
+      const expectedBackground = theme === 'dark' ? bgDark : bgLight;
+      let backgroundPath = expectedBackground;
+      try {
+        const storedBackground = localStorage.getItem(backgroundKey);
+        backgroundPath = storedBackground === expectedBackground
+          ? storedBackground
+          : expectedBackground;
+      } catch (_error) {
+        backgroundPath = expectedBackground;
+      }
+
+      const root = document.documentElement;
+      root.setAttribute('data-theme', theme);
+      root.style.setProperty('--page-bg-image', `url('${backgroundPath}')`);
+
+      try {
+        localStorage.setItem(backgroundKey, backgroundPath);
+      } catch (_error) {
+        // Ignore storage failures.
+      }
+    })();
+  </script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body data-page="about">
+  <div class="page-glow" aria-hidden="true"></div>
+  <div id="site-header"></div>
+
+  <main>
+    <section class="blog-hero reveal">
+      <p class="kicker">Sobre o Observatório</p>
+      <h1>Quem somos</h1>
+      <p>
+        O Observatório da Extrema-Direita Latino-americana (OEDLA), registrado no Diretório de Grupos de Pesquisa (DGP) do CNPq desde 12 de agosto de 2025, é sediado no Centro de Estudos Marxistas (CEMARX) da Unicamp.
+      </p>
+      <p>
+        Sob a coordenação do professor André Kaysel Velasco e Cruz, o grupo dedica-se ao estudo, pesquisa científica e difusão do conhecimento acerca das extremas-direitas contemporâneas na América Latina e suas conexões transnacionais.
+      </p>
+      <div class="social-links-block" aria-label="Nossas redes">
+        <p class="kicker">Nossas Redes</p>
+        <div class="social-links-actions" id="labiia-social-links">
+          <p class="preview-meta">Carregando redes...</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="origem" class="mission-section reveal">
+      <div class="section-head">
+        <h2>Nossa Origem</h2>
+      </div>
+      <p class="mission-lead">
+        O grupo nasceu do projeto <em>"A Sagrada Família da Extrema-Direita ao Sul da América: uma análise comparada de Argentina, Bolívia, Brasil e Chile (2015-2025)"</em>, financiado pelo FAEPEX/Unicamp.
+      </p>
+      <p>
+        O escopo inicial foi o estudo comparado do discurso ideológico das principais lideranças da extrema-direita na região entre a crise da "maré rosa" e a ascensão de novas expressões radicalizadas.
+      </p>
+    </section>
+
+    <section id="missao" class="mission-section reveal">
+      <div class="section-head">
+        <h2>Nossa Missão de Difusão</h2>
+      </div>
+      <p class="mission-lead">O OEDLA atua na difusão dos seguintes conteúdos:</p>
+      <div class="axis-grid axis-grid-2">
+        <article class="axis-card">
+          <h3>Produção Científica</h3>
+          <p>Divulgação da produção científica da equipe: artigos, capítulos e teses.</p>
+        </article>
+        <article class="axis-card">
+          <h3>Pesquisas Externas</h3>
+          <p>Difusão de pesquisas externas sobre a extrema-direita latino-americana.</p>
+        </article>
+        <article class="axis-card">
+          <h3>Parcerias Institucionais</h3>
+          <p>Parcerias com outros observatórios e grupos de pesquisa da área.</p>
+        </article>
+        <article class="axis-card">
+          <h3>Notas de Conjuntura</h3>
+          <p>Notas curtas e informes de conjuntura política sobre os movimentos da extrema-direita.</p>
+        </article>
+        <article class="axis-card">
+          <h3>Monitoramento de Mídia</h3>
+          <p>Monitoramento da imprensa e meios de comunicação relacionados ao tema.</p>
+        </article>
+        <article class="axis-card">
+          <h3>Repositório de Fontes</h3>
+          <p>Repositório de fontes primárias: discursos, documentos e material audiovisual.</p>
+        </article>
+      </div>
+    </section>
+
+    <section id="atividades" class="mission-section reveal">
+      <div class="section-head">
+        <h2>Atividades</h2>
+      </div>
+      <p class="mission-lead">
+        Além da pesquisa, promovemos grupos de estudos mensais dedicados à leitura de obras das Ciências Sociais, Ciência Política e História.
+      </p>
+      <p>
+        Também organizamos seminários públicos no IFCH-Unicamp e estamos preparando o lançamento de um podcast com entrevistas a pesquisadores da área.
+      </p>
+    </section>
+
+    <section class="reveal">
+      <div class="section-head">
+        <h2>Integrantes</h2>
+      </div>
+      <section class="posts-grid" id="integrantes-grid" aria-live="polite">
+        <article class="post-card">
+          <p class="preview-meta">Carregando...</p>
+          <h2>Buscando integrantes</h2>
+          <p>Se essa mensagem não sair, verifique se o servidor local está ativo.</p>
+        </article>
+      </section>
+    </section>
+  </main>
+
+  <div id="site-footer"></div>
+
+  <script src="script.js"></script>
+</body>
+</html>
