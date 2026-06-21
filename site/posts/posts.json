@@ -7,18 +7,6 @@
     {
       "slug": "redes-sociais-radicalizacao",
       "file": "artigos/redes-sociais-radicalizacao/post.md"
-    },
-    {
-      "slug": "teste-forms",
-      "file": "artigos/teste-forms/post.md"
-    },
-    {
-      "slug": "teste-2-forms",
-      "file": "artigos/teste-2-forms/post.md"
-    },
-    {
-      "slug": "teste-4",
-      "file": "artigos/teste-4/post.md"
     }
   ],
   "noticias": [
@@ -33,10 +21,6 @@
     {
       "slug": "lancamento-observatorio-oedla",
       "file": "noticias/lancamento-observatorio-oedla/post.md"
-    },
-    {
-      "slug": "teste-3",
-      "file": "noticias/teste-3/post.md"
     }
   ]
 }
