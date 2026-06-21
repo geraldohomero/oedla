@@ -610,10 +610,44 @@ a:hover {
     margin-bottom: 0.75rem;
   }
 
-  .post-markdown h2,
-  .post-markdown h3 {
+  .post-markdown h1 {
+    font-family: "Playfair Display", serif;
+    font-size: 2.25rem;
+    font-weight: 700;
+    line-height: 1.2;
+    margin-top: 2.5rem;
+    margin-bottom: 1rem;
+    color: var(--ink);
+  }
+
+  .post-markdown h2 {
+    font-family: "Playfair Display", serif;
+    font-size: 1.75rem;
+    font-weight: 700;
+    line-height: 1.3;
     margin-top: 2rem;
     margin-bottom: 0.75rem;
+    color: var(--ink);
+  }
+
+  .post-markdown h3 {
+    font-family: "Playfair Display", serif;
+    font-size: 1.5rem;
+    font-weight: 700;
+    line-height: 1.4;
+    margin-top: 1.5rem;
+    margin-bottom: 0.75rem;
+    color: var(--ink);
+  }
+
+  .post-markdown h4,
+  .post-markdown h5,
+  .post-markdown h6 {
+    font-family: "Inter", sans-serif;
+    font-size: 1.15rem;
+    font-weight: 700;
+    margin-top: 1.5rem;
+    margin-bottom: 0.5rem;
     color: var(--ink);
   }
 
