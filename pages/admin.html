@@ -20,17 +20,34 @@
 
     .admin-container {
       max-width: 1100px;
-      margin: 2rem auto;
-      padding: 0 1.5rem;
+      margin: 1rem auto;
+      padding: 0 1rem;
+    }
+    @media (min-width: 768px) {
+      .admin-container {
+        margin: 2rem auto;
+        padding: 0 1.5rem;
+      }
     }
     
     .admin-header {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 2rem;
-      padding-bottom: 1.25rem;
+      margin-bottom: 1.5rem;
+      padding-bottom: 1rem;
       border-bottom: 1px solid var(--stroke);
+    }
+    @media (max-width: 480px) {
+      .admin-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
+      }
+      .admin-header button {
+        width: 100%;
+        text-align: center;
+      }
     }
 
     .admin-header h1 {
@@ -41,9 +58,16 @@
     .admin-nav {
       display: flex;
       gap: 0.5rem;
-      margin-bottom: 2.5rem;
+      margin-bottom: 2rem;
       border-bottom: 1px solid var(--stroke);
       padding-bottom: 0.5rem;
+      overflow-x: auto;
+      white-space: nowrap;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none; /* Firefox */
+    }
+    .admin-nav::-webkit-scrollbar {
+      display: none; /* Chrome, Safari, Opera */
     }
 
     .admin-nav button {
@@ -56,6 +80,7 @@
       border-radius: 6px;
       font-size: 0.95rem;
       transition: all 0.2s ease;
+      flex-shrink: 0;
     }
 
     .admin-nav button:hover {
@@ -88,9 +113,15 @@
       background: var(--surface);
       border: 1px solid var(--stroke);
       border-radius: 8px;
-      padding: 2rem;
+      padding: 1.25rem;
       box-shadow: var(--shadow);
-      margin-bottom: 2rem;
+      margin-bottom: 1.5rem;
+    }
+    @media (min-width: 768px) {
+      .admin-card {
+        padding: 2rem;
+        margin-bottom: 2rem;
+      }
     }
 
     /* Table styling with row separation */
@@ -135,6 +166,68 @@
     tr:hover td {
       background: var(--accent-soft);
       border-color: var(--accent);
+    }
+
+    @media (max-width: 768px) {
+      table, thead, tbody, th, td, tr {
+        display: block;
+      }
+      
+      thead tr {
+        position: absolute;
+        top: -9999px;
+        left: -9999px;
+      }
+      
+      tr {
+        border: 1px solid var(--stroke);
+        border-radius: 8px;
+        background: var(--surface);
+        margin-bottom: 1rem;
+        padding: 0.5rem;
+        box-shadow: var(--shadow);
+      }
+      
+      td {
+        border: none !important;
+        border-bottom: 1px solid var(--stroke) !important;
+        position: relative;
+        padding-left: 45% !important;
+        text-align: right !important;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0.75rem 0.5rem !important;
+        word-break: break-word;
+      }
+      
+      td:first-child {
+        border-left: none !important;
+        border-radius: 0;
+      }
+      
+      td:last-child {
+        border-right: none !important;
+        border-radius: 0;
+        border-bottom: none !important;
+      }
+      
+      td::before {
+        content: attr(data-label);
+        font-weight: 600;
+        color: var(--muted);
+        font-size: 0.8rem;
+        text-transform: uppercase;
+        text-align: left;
+        margin-right: 1rem;
+        flex-shrink: 0;
+      }
+
+      .actions {
+        justify-content: flex-end;
+        width: 100%;
+        flex-wrap: wrap;
+      }
     }
 
     .actions {
@@ -224,20 +317,57 @@
 
     .image-upload-wrapper {
       display: flex;
-      gap: 1rem;
-      align-items: center;
+      flex-direction: column;
+      gap: 0.75rem;
     }
 
-    /* Subtitle styling for forms */
-    .form-section-title {
-      font-family: "Playfair Display", serif;
-      font-size: 1.5rem;
-      font-weight: 700;
-      color: var(--ink);
-      margin-top: 2rem;
-      margin-bottom: 1.25rem;
-      padding-bottom: 0.5rem;
-      border-bottom: 1px solid var(--stroke);
+    @media (min-width: 640px) {
+      .image-upload-wrapper {
+        flex-direction: row;
+        gap: 1rem;
+        align-items: center;
+      }
+    }
+
+    .admin-nav-wrapper {
+      position: relative;
+      margin-bottom: 2rem;
+    }
+
+    @media (max-width: 640px) {
+      .admin-nav-wrapper:not(.scrolled-end)::before {
+        content: '\f054'; /* FontAwesome chevron-right */
+        font-family: 'Font Awesome 6 Free';
+        font-weight: 900;
+        position: absolute;
+        right: 6px;
+        top: 35%;
+        transform: translateY(-50%);
+        color: var(--accent);
+        pointer-events: none;
+        z-index: 10;
+        font-size: 0.75rem;
+        animation: bounceRight 0.8s infinite alternate;
+        opacity: 0.8;
+      }
+      
+      .admin-nav-wrapper:not(.scrolled-end)::after {
+        content: '';
+        position: absolute;
+        right: 0;
+        top: 0;
+        bottom: 0.5rem;
+        width: 48px;
+        background: linear-gradient(to left, var(--bg) 20%, transparent 100%);
+        pointer-events: none;
+        z-index: 5;
+        transition: opacity 0.3s ease;
+      }
+    }
+
+    @keyframes bounceRight {
+      from { transform: translate(0, -50%); }
+      to { transform: translate(3px, -50%); }
     }
   </style>
   <script src="https://cdn.tailwindcss.com"></script>
@@ -258,18 +388,20 @@
       <button id="logout-btn" class="btn btn-ghost">Sair</button>
     </div>
 
-    <div class="admin-nav">
-      <button class="active" data-view="view-posts">Posts</button>
-      <button data-view="view-authors">Integrantes</button>
-      <button data-view="view-eventos">Eventos</button>
-      <button data-view="view-info">Páginas & Info</button>
+    <div class="admin-nav-wrapper">
+      <div class="admin-nav">
+        <button class="active" data-view="view-posts">Posts</button>
+        <button data-view="view-authors">Integrantes</button>
+        <button data-view="view-eventos">Eventos</button>
+        <button data-view="view-info">Páginas & Info</button>
+      </div>
     </div>
 
     <!-- Posts View -->
     <div id="view-posts" class="admin-view active">
-      <div class="flex justify-between items-center mb-6">
+      <div class="flex flex-col sm:flex-row justify-between sm:items-center gap-4 mb-6">
         <h2 class="font-serif text-2xl font-bold text-gray-900 dark:text-white">Gerenciar Posts</h2>
-        <button id="btn-new-post" class="btn btn-primary">Novo Post</button>
+        <button id="btn-new-post" class="btn btn-primary w-full sm:w-auto">Novo Post</button>
       </div>
       <div class="admin-card">
         <table id="table-posts">
@@ -291,9 +423,9 @@
 
     <!-- Authors View -->
     <div id="view-authors" class="admin-view">
-      <div class="flex justify-between items-center mb-6">
+      <div class="flex flex-col sm:flex-row justify-between sm:items-center gap-4 mb-6">
         <h2 class="font-serif text-2xl font-bold text-gray-900 dark:text-white">Gerenciar Integrantes</h2>
-        <button id="btn-new-author" class="btn btn-primary">Novo Integrante</button>
+        <button id="btn-new-author" class="btn btn-primary w-full sm:w-auto">Novo Integrante</button>
       </div>
       <div class="admin-card">
         <table id="table-authors">
@@ -313,9 +445,9 @@
 
     <!-- Eventos View (NOVA) -->
     <div id="view-eventos" class="admin-view">
-      <div class="flex justify-between items-center mb-6">
+      <div class="flex flex-col sm:flex-row justify-between sm:items-center gap-4 mb-6">
         <h2 class="font-serif text-2xl font-bold text-gray-900 dark:text-white">Gerenciar Eventos</h2>
-        <button id="btn-new-evento" class="btn btn-primary">Novo Evento</button>
+        <button id="btn-new-evento" class="btn btn-primary w-full sm:w-auto">Novo Evento</button>
       </div>
       <div class="admin-card">
         <table id="table-eventos">
@@ -446,9 +578,9 @@
         </div>
         <div class="form-group">
           <label for="post-autor">Autor</label>
-          <div style="display: flex; gap: 0.5rem;">
-            <select id="post-autor" required style="flex: 1;"></select>
-            <button type="button" class="btn btn-ghost" id="btn-add-author-from-post" style="padding: 0.5rem 1rem;">[ + Novo Integrante ]</button>
+          <div class="flex flex-col sm:flex-row gap-2">
+            <select id="post-autor" required class="w-full sm:flex-1"></select>
+            <button type="button" class="btn btn-ghost py-2 px-4 w-full sm:w-auto text-sm" id="btn-add-author-from-post">[ + Novo Integrante ]</button>
           </div>
         </div>
         <div class="form-group">
@@ -491,11 +623,11 @@
           <label>Conteúdo</label>
           <div class="flex flex-col gap-2 mb-2">
             <p class="preview-meta">Para adicionar imagens no texto, cole a URL de uma imagem ou faça upload abaixo para gerar um link de imagem do Supabase:</p>
-            <div class="flex gap-2 items-center">
+            <div class="flex flex-col sm:flex-row gap-2 sm:items-center">
               <input type="file" id="post-body-image-file" accept="image/*" class="hidden">
-              <button type="button" class="btn btn-ghost btn-sm" id="btn-upload-post-body-image">Upload Imagem no Corpo</button>
-              <input type="text" id="post-body-image-result" placeholder="URL da imagem carregada" readonly style="flex: 1; padding: 0.25rem 0.5rem; font-size: 0.85rem; border: 1px solid var(--border-color); border-radius: 4px; background: var(--surface-bg);">
-              <button type="button" class="btn btn-sm" id="btn-copy-body-image" style="display:none;">Copiar link</button>
+              <button type="button" class="btn btn-ghost btn-sm w-full sm:w-auto" id="btn-upload-post-body-image">Upload Imagem no Corpo</button>
+              <input type="text" id="post-body-image-result" placeholder="URL da imagem carregada" readonly style="flex: 1; padding: 0.25rem 0.5rem; font-size: 0.85rem; border: 1px solid var(--border-color); border-radius: 4px; background: var(--surface-bg);" class="w-full">
+              <button type="button" class="btn btn-sm w-full sm:w-auto" id="btn-copy-body-image" style="display:none;">Copiar link</button>
             </div>
           </div>
           <textarea id="post-conteudo"></textarea>
@@ -540,7 +672,7 @@
         </div>
         <div class="form-group">
           <label>Redes e Contatos (Apenas URLs)</label>
-          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <input type="url" id="author-link-lattes" placeholder="Lattes URL">
             <input type="url" id="author-link-orcid" placeholder="ORCID URL">
             <input type="url" id="author-link-instagram" placeholder="Instagram URL">
@@ -615,31 +747,25 @@
     function createOtherLinkRow(containerId, title = '', url = '') {
       const container = document.getElementById(containerId);
       const row = document.createElement('div');
-      row.className = 'flex gap-2 items-center other-link-row mt-2';
-      row.style.display = 'flex';
-      row.style.gap = '0.5rem';
-      row.style.alignItems = 'center';
+      row.className = 'flex flex-col sm:flex-row gap-2 items-start sm:items-center other-link-row mt-2 w-full';
       
       const titleInput = document.createElement('input');
       titleInput.type = 'text';
       titleInput.placeholder = 'Nome (Ex: Site Pessoal)';
-      titleInput.className = 'other-link-title';
-      titleInput.style.width = '30%';
+      titleInput.className = 'other-link-title w-full sm:w-[30%]';
       titleInput.value = title;
       titleInput.required = true;
       
       const urlInput = document.createElement('input');
       urlInput.type = 'url';
       urlInput.placeholder = 'URL (Ex: https://...)';
-      urlInput.className = 'other-link-url';
-      urlInput.style.width = '60%';
+      urlInput.className = 'other-link-url w-full sm:w-[55%]';
       urlInput.value = url;
       urlInput.required = true;
       
       const deleteBtn = document.createElement('button');
       deleteBtn.type = 'button';
-      deleteBtn.className = 'btn btn-ghost btn-sm';
-      deleteBtn.style.color = '#ff4a4a';
+      deleteBtn.className = 'btn btn-ghost btn-sm w-full sm:w-auto text-red-500';
       deleteBtn.style.padding = '0.5rem 1rem';
       deleteBtn.innerText = 'Excluir';
       deleteBtn.onclick = () => row.remove();
@@ -831,13 +957,15 @@
           const destaqueText = p.destaque ? '<span class="text-xs bg-yellow-400 text-gray-900 font-bold px-2 py-0.5 rounded">Sim</span>' : '<span class="text-xs text-gray-400">Não</span>';
           html += `
             <tr>
-              <td>${p.titulo || 'Sem título'}</td>
-              <td>${p.tipo || '-'}</td>
-              <td>${destaqueText}</td>
-              <td>${p.data || '-'}</td>
-              <td>
-                <button class="btn btn-sm btn-ghost" onclick="editPost('${p.id}')">Editar</button>
-                <button class="btn btn-sm btn-ghost" style="color:#ff4a4a;" onclick="deletePost('${p.id}')">Excluir</button>
+              <td data-label="Título">${p.titulo || 'Sem título'}</td>
+              <td data-label="Tipo">${p.tipo || '-'}</td>
+              <td data-label="Destaque">${destaqueText}</td>
+              <td data-label="Data">${p.data || '-'}</td>
+              <td data-label="Ações">
+                <div class="actions">
+                  <button class="btn btn-sm btn-ghost" onclick="editPost('${p.id}')">Editar</button>
+                  <button class="btn btn-sm btn-ghost" style="color:#ff4a4a;" onclick="deletePost('${p.id}')">Excluir</button>
+                </div>
               </td>
             </tr>
           `;
@@ -973,11 +1101,13 @@
         cachedAuthors.forEach(a => {
           html += `
             <tr>
-              <td>${a.nome || 'Sem nome'}</td>
-              <td>${a.cargo || '-'}</td>
-              <td>
-                <button class="btn btn-sm btn-ghost" onclick="editAuthor('${a.id}')">Editar</button>
-                <button class="btn btn-sm btn-ghost" style="color:#ff4a4a;" onclick="deleteAuthor('${a.id}')">Excluir</button>
+              <td data-label="Nome">${a.nome || 'Sem nome'}</td>
+              <td data-label="Cargo">${a.cargo || '-'}</td>
+              <td data-label="Ações">
+                <div class="actions">
+                  <button class="btn btn-sm btn-ghost" onclick="editAuthor('${a.id}')">Editar</button>
+                  <button class="btn btn-sm btn-ghost" style="color:#ff4a4a;" onclick="deleteAuthor('${a.id}')">Excluir</button>
+                </div>
               </td>
             </tr>
           `;
@@ -1177,12 +1307,14 @@
         (data || []).forEach(ev => {
           html += `
             <tr>
-              <td>${ev.titulo || 'Sem título'}</td>
-              <td>${ev.data || '-'}</td>
-              <td>${ev.local || '-'}</td>
-              <td>
-                <button class="btn btn-sm btn-ghost" onclick="editEvento('${ev.id}')">Editar</button>
-                <button class="btn btn-sm btn-ghost" style="color:#ff4a4a;" onclick="deleteEvento('${ev.id}')">Excluir</button>
+              <td data-label="Título">${ev.titulo || 'Sem título'}</td>
+              <td data-label="Data">${ev.data || '-'}</td>
+              <td data-label="Local">${ev.local || '-'}</td>
+              <td data-label="Ações">
+                <div class="actions">
+                  <button class="btn btn-sm btn-ghost" onclick="editEvento('${ev.id}')">Editar</button>
+                  <button class="btn btn-sm btn-ghost" style="color:#ff4a4a;" onclick="deleteEvento('${ev.id}')">Excluir</button>
+                </div>
               </td>
             </tr>
           `;
@@ -1415,6 +1547,30 @@
         spellChecker: false,
         status: false
       });
+
+      initScrollIndicator();
+    }
+
+    function initScrollIndicator() {
+      const nav = document.querySelector('.admin-nav');
+      const wrapper = document.querySelector('.admin-nav-wrapper');
+      if (nav && wrapper) {
+        const updateScrollIndicator = () => {
+          const maxScroll = nav.scrollWidth - nav.clientWidth;
+          if (maxScroll <= 1) {
+            wrapper.classList.add('scrolled-end');
+            return;
+          }
+          if (nav.scrollLeft >= maxScroll - 8) {
+            wrapper.classList.add('scrolled-end');
+          } else {
+            wrapper.classList.remove('scrolled-end');
+          }
+        };
+        nav.addEventListener('scroll', updateScrollIndicator);
+        window.addEventListener('resize', updateScrollIndicator);
+        setTimeout(updateScrollIndicator, 200);
+      }
     }
 
     // Set preview updates on manual URL input changes
