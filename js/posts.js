@@ -27,24 +27,28 @@ function buildTocListMarkup(tocItems) {
 
 function buildPostCard(post) {
   const categoryTokens = post.categories.join('|');
-  const categoryLabelText = post.categoryLabels.join(' • ');
+  const categoryBadges = post.categoryLabels.map(label =>
+    `<span class="inline-block px-2 py-0.5 border border-primary/20 dark:border-primary/30 text-primary text-[9px] font-sans font-bold uppercase tracking-wider bg-primary/5 rounded-none">${escapeHtml(label)}</span>`
+  ).join('');
   const authorsText = post.authorLinks.length
     ? post.authorLinks.map(a => a.url ? `<a href="${a.url}" class="relative z-20 hover:text-primary transition-colors">${escapeHtml(a.name)}</a>` : escapeHtml(a.name)).join(', ')
     : '';
 
   return `
-    <article class="post-card group relative grid grid-cols-1 md:grid-cols-12 gap-6 items-start py-10 border-b border-gray-200 dark:border-gray-800 last:border-0" data-categories="${escapeHtml(categoryTokens)}" data-href="${getPath('pages/post.html?slug=')}${encodeURIComponent(post.slug)}">
+    <article class="post-card group relative grid grid-cols-12 gap-4 md:gap-6 items-start py-8 md:py-10 border-b border-gray-200 dark:border-gray-800 last:border-0" data-categories="${escapeHtml(categoryTokens)}" data-href="${getPath('pages/post.html?slug=')}${encodeURIComponent(post.slug)}">
       <a class="absolute inset-0 z-10" href="${getPath('pages/post.html?slug=')}${encodeURIComponent(post.slug)}" aria-label="${escapeHtml(post.title)}"></a>
-      <div class="col-span-1 md:col-span-2 flex flex-col md:text-right pt-1">
-        <time class="font-sans text-sm font-bold text-gray-900 dark:text-gray-100">${escapeHtml(post.date)}</time>
-        <span class="font-sans text-xs font-bold uppercase tracking-widest text-primary mt-1">${escapeHtml(categoryLabelText)}</span>
+      <div class="col-span-12 md:col-span-2 flex flex-col pt-1 gap-2 text-left">
+        <time class="font-sans text-xs md:text-sm font-bold text-gray-900 dark:text-gray-100">${escapeHtml(post.date)}</time>
+        <div class="flex flex-wrap gap-1.5 md:flex-col md:items-start">
+          ${categoryBadges}
+        </div>
       </div>
-      <div class="col-span-1 md:col-span-7">
-        <h2 class="font-serif text-3xl md:text-4xl font-bold text-gray-900 dark:text-gray-100 group-hover:text-primary transition-colors leading-tight mb-4">${escapeHtml(post.title)}</h2>
-        <p class="font-sans text-base text-gray-600 dark:text-gray-400 leading-relaxed">${escapeHtml(post.excerpt)}</p>
-        ${authorsText ? `<p class="font-sans text-sm font-semibold text-gray-500 mt-4">Por: ${authorsText}</p>` : ''}
+      <div class="col-span-8 md:col-span-7">
+        <h2 class="font-serif text-xl md:text-4xl font-bold text-gray-900 dark:text-gray-100 group-hover:text-primary transition-colors leading-tight mb-2 md:mb-4">${escapeHtml(post.title)}</h2>
+        <p class="font-sans text-sm md:text-base text-gray-600 dark:text-gray-400 leading-relaxed line-clamp-3 md:line-clamp-none">${escapeHtml(post.excerpt)}</p>
+        ${authorsText ? `<p class="font-sans text-xs md:text-sm font-semibold text-gray-500 mt-3">Por: ${authorsText}</p>` : ''}
       </div>
-      <div class="col-span-1 md:col-span-3">
+      <div class="col-span-4 md:col-span-3">
         <img src="${escapeHtml(post.image || getPath('posts/img/place-holder.png'))}" alt="Capa do post: ${escapeHtml(post.title)}" class="${post.image ? 'w-full aspect-[4/3] object-cover rounded shadow-sm grayscale group-hover:grayscale-0 transition-all duration-500' : 'w-full aspect-[4/3] object-contain rounded opacity-80 dark:invert dark:opacity-50 transition-all duration-500'}">
       </div>
     </article>
@@ -61,26 +65,170 @@ function buildDynamicFilters(posts) {
     });
   });
   const categoryButtons = [...categoryMap.entries()].map(([cat, label]) =>
-    `<button class="filter px-4 py-2 font-sans text-xs font-bold uppercase tracking-wider border border-gray-300 dark:border-gray-700 text-gray-700 dark:text-gray-300 hover:border-primary hover:text-primary transition-colors rounded-none" data-filter="${escapeHtml(cat)}">${escapeHtml(label)}</button>`
+    `<button class="filter px-3 py-1.5 font-sans text-xs font-bold uppercase tracking-wider border border-gray-200 dark:border-gray-800 text-gray-700 dark:text-gray-300 hover:border-primary hover:text-primary transition-colors rounded-none" data-filter="${escapeHtml(cat)}">${escapeHtml(label)}</button>`
   ).join('');
-  filtersContainer.innerHTML = `<button class="filter active px-4 py-2 font-sans text-xs font-bold uppercase tracking-wider border border-gray-300 dark:border-gray-700 text-gray-700 dark:text-gray-300 hover:border-primary hover:text-primary transition-colors rounded-none" data-filter="all">Todos</button>${categoryButtons}`;
+  filtersContainer.innerHTML = `<button class="filter active px-3 py-1.5 font-sans text-xs font-bold uppercase tracking-wider border border-gray-200 dark:border-gray-800 text-gray-700 dark:text-gray-300 hover:border-primary hover:text-primary transition-colors rounded-none" data-filter="all">Todos</button>${categoryButtons}`;
+}
+
+let currentPostsList = [];
+let currentPage = 1;
+let itemsPerPage = 25;
+
+function renderPagination(totalItems) {
+  const container = document.querySelector('#pagination-controls');
+  if (!container) return;
+  
+  const totalPages = Math.ceil(totalItems / itemsPerPage);
+  if (totalPages <= 1) {
+    container.innerHTML = '';
+    return;
+  }
+  
+  let html = '';
+  
+  // Previous page button
+  if (currentPage > 1) {
+    html += `<button class="page-btn px-3 py-1.5 text-xs font-bold font-sans border border-gray-200 dark:border-gray-800 hover:border-primary hover:text-primary transition-colors text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-900" data-page="${currentPage - 1}">Anterior</button>`;
+  } else {
+    html += `<button class="px-3 py-1.5 text-xs font-bold font-sans border border-gray-200 dark:border-gray-900 text-gray-300 dark:text-gray-700 cursor-not-allowed bg-gray-50/50 dark:bg-gray-900/10" disabled>Anterior</button>`;
+  }
+  
+  // Page numbers
+  for (let i = 1; i <= totalPages; i++) {
+    if (i === currentPage) {
+      html += `<button class="px-3 py-1.5 text-xs font-bold font-sans border border-primary text-primary bg-primary/10 cursor-default" disabled>${i}</button>`;
+    } else {
+      html += `<button class="page-btn px-3 py-1.5 text-xs font-bold font-sans border border-gray-200 dark:border-gray-800 hover:border-primary hover:text-primary transition-colors text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-900" data-page="${i}">${i}</button>`;
+    }
+  }
+  
+  // Next page button
+  if (currentPage < totalPages) {
+    html += `<button class="page-btn px-3 py-1.5 text-xs font-bold font-sans border border-gray-200 dark:border-gray-800 hover:border-primary hover:text-primary transition-colors text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-900" data-page="${currentPage + 1}">Próxima</button>`;
+  } else {
+    html += `<button class="px-3 py-1.5 text-xs font-bold font-sans border border-gray-200 dark:border-gray-900 text-gray-300 dark:text-gray-700 cursor-not-allowed bg-gray-50/50 dark:bg-gray-900/10" disabled>Próxima</button>`;
+  }
+  
+  container.innerHTML = html;
+}
+
+function renderFilteredPosts() {
+  const grid = document.querySelector('#posts-grid');
+  if (!grid) return;
+  
+  const activeFilterBtn = document.querySelector('.filter.active');
+  const searchInput = document.querySelector('#search-input');
+  const sortSelect = document.querySelector('#sort-select');
+  
+  const selectedCategory = activeFilterBtn ? activeFilterBtn.dataset.filter : 'all';
+  const searchQuery = searchInput ? searchInput.value.toLowerCase().trim() : '';
+  const sortOrder = sortSelect ? sortSelect.value : 'newest';
+  
+  let filtered = currentPostsList.filter(post => {
+    const categoryMatches = (selectedCategory === 'all' || post.categories.includes(selectedCategory));
+    
+    let searchMatches = true;
+    if (searchQuery) {
+      const title = post.title.toLowerCase();
+      const excerpt = post.excerpt.toLowerCase();
+      const authors = post.authorLinks.map(a => a.name.toLowerCase()).join(' ');
+      searchMatches = title.includes(searchQuery) || excerpt.includes(searchQuery) || authors.includes(searchQuery);
+    }
+    
+    return categoryMatches && searchMatches;
+  });
+  
+  filtered.sort((a, b) => {
+    if (sortOrder === 'newest') {
+      return b.sortTs - a.sortTs;
+    } else {
+      return a.sortTs - b.sortTs;
+    }
+  });
+  
+  const totalItems = filtered.length;
+  const totalPages = Math.ceil(totalItems / itemsPerPage);
+  if (currentPage > totalPages) {
+    currentPage = Math.max(1, totalPages);
+  }
+  
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
+  const paginated = filtered.slice(startIndex, endIndex);
+  
+  if (paginated.length) {
+    grid.innerHTML = paginated.map(buildPostCard).join('');
+  } else {
+    grid.innerHTML = '<p class="font-sans text-sm text-gray-500 py-12 text-center">Nenhuma publicação corresponde aos critérios.</p>';
+  }
+  
+  renderPagination(totalItems);
 }
 
 function wireFilters() {
-  const filters = document.querySelectorAll('.filter');
-  const posts = document.querySelectorAll('.post-card');
-  if (!filters.length || !posts.length) return;
-  filters.forEach((button) => {
-    button.addEventListener('click', () => {
+  const filtersContainer = document.querySelector('#blog-filters');
+  const searchInput = document.querySelector('#search-input');
+  const sortSelect = document.querySelector('#sort-select');
+  const toggleSidebarBtn = document.querySelector('#toggle-sidebar-btn');
+  const sidebarFilters = document.querySelector('#sidebar-filters');
+  const limitSelect = document.querySelector('#limit-select');
+  const paginationContainer = document.querySelector('#pagination-controls');
+  
+  if (toggleSidebarBtn && sidebarFilters) {
+    toggleSidebarBtn.addEventListener('click', () => {
+      sidebarFilters.classList.toggle('hidden');
+      sidebarFilters.classList.toggle('flex');
+    });
+  }
+  
+  if (searchInput) {
+    searchInput.addEventListener('input', () => {
+      currentPage = 1;
+      renderFilteredPosts();
+    });
+  }
+  
+  if (sortSelect) {
+    sortSelect.addEventListener('change', () => {
+      currentPage = 1;
+      renderFilteredPosts();
+    });
+  }
+  
+  if (limitSelect) {
+    limitSelect.addEventListener('change', () => {
+      itemsPerPage = parseInt(limitSelect.value, 10);
+      currentPage = 1;
+      renderFilteredPosts();
+    });
+  }
+
+  if (filtersContainer) {
+    filtersContainer.addEventListener('click', (e) => {
+      const button = e.target.closest('.filter');
+      if (!button) return;
+      
+      const filters = filtersContainer.querySelectorAll('.filter');
       filters.forEach((item) => item.classList.remove('active'));
       button.classList.add('active');
-      const selected = button.dataset.filter;
-      posts.forEach((post) => {
-        const categories = (post.dataset.categories || '').split('|').filter(Boolean);
-        post.style.display = (selected === 'all' || categories.includes(selected)) ? '' : 'none';
-      });
+      
+      currentPage = 1;
+      renderFilteredPosts();
     });
-  });
+  }
+  
+  if (paginationContainer) {
+    paginationContainer.addEventListener('click', (e) => {
+      const button = e.target.closest('.page-btn');
+      if (!button) return;
+      currentPage = parseInt(button.dataset.page, 10);
+      renderFilteredPosts();
+      const grid = document.querySelector('#posts-grid');
+      if (grid) {
+        grid.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    });
+  }
 }
 
 async function loadPostsList(tipoFilter) {
@@ -95,7 +243,7 @@ async function loadPostsList(tipoFilter) {
       if (tipoFilter === 'notícia') return p.tipo === 'notícia' || p.tipo === 'noticia';
       return true;
     });
-    const posts = filtered.map(post => {
+    currentPostsList = filtered.map(post => {
       const categoriesRaw = post.categorias || [];
       const categories = categoriesRaw.map(normalizeCategoryValue);
       const categoryLabels = categoriesRaw.map(formatCategoryLabel);
@@ -111,9 +259,8 @@ async function loadPostsList(tipoFilter) {
         image: String(post.poster || '').trim(),
       };
     });
-    const sorted = [...posts].sort((a, b) => b.sortTs - a.sortTs);
-    buildDynamicFilters(sorted);
-    grid.innerHTML = sorted.map(buildPostCard).join('');
+    buildDynamicFilters(currentPostsList);
+    renderFilteredPosts();
     wireFilters();
   } catch (error) {
     grid.innerHTML = '<article class="post-card"><p class="preview-meta">Erro</p><h2>Não foi possível carregar os posts</h2></article>';
@@ -123,11 +270,13 @@ async function loadPostsList(tipoFilter) {
 
 export async function loadBlogList() {
   if (getCurrentPageKey() !== 'blog') return;
+  currentPage = 1;
   await loadPostsList('artigo');
 }
 
 export async function loadNoticiasList() {
   if (getCurrentPageKey() !== 'noticias') return;
+  currentPage = 1;
   await loadPostsList('notícia');
 }
 

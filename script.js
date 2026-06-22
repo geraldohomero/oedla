@@ -4,6 +4,7 @@ import { loadLabSocialLinks, loadHeroDynamic, loadBlogPageInfo, loadQuemSomosDyn
 import { loadHomeLatestPosts } from './js/home.js';
 import { loadBlogList, loadNoticiasList, loadPostPage } from './js/posts.js';
 import { loadIntegrantesPage, loadIntegranteProfilePage } from './js/authors.js';
+import { loadHomeEventos, loadEventosList, loadEventoPage } from './js/eventos.js';
 
 async function initPage() {
   try {
@@ -27,6 +28,9 @@ async function initPage() {
     loadPostPage(),
     loadIntegrantesPage(),
     loadIntegranteProfilePage(),
+    loadHomeEventos(),
+    loadEventosList(),
+    loadEventoPage(),
   ]);
 }
 

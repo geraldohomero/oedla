@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Eventos | OEDLA</title>
+  <meta name="description" content="Agenda completa de seminários, mesas redondas, conferências e outros eventos organizados pelo OEDLA.">
+  <script>
+    (function () {
+      const themeKey = 'oedla-theme';
+      const backgroundKey = 'oedla-bg-image';
+      const bgLight = 'assets/img/background-light.png';
+      const bgDark = 'assets/img/background-dark.png';
+      let theme = '';
+      try {
+        const saved = localStorage.getItem(themeKey);
+        theme = saved === 'dark' || saved === 'light'
+          ? saved
+          : (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+      } catch (_error) {
+        theme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+      }
+
+      const expectedBackground = theme === 'dark' ? bgDark : bgLight;
+      let backgroundPath = expectedBackground;
+      try {
+        const storedBackground = localStorage.getItem(backgroundKey);
+        backgroundPath = storedBackground === expectedBackground
+          ? storedBackground
+          : expectedBackground;
+      } catch (_error) {
+        backgroundPath = expectedBackground;
+      }
+
+      const root = document.documentElement;
+      root.setAttribute('data-theme', theme);
+      root.style.setProperty('--page-bg-image', `url('${backgroundPath}')`);
+
+      try {
+        localStorage.setItem(backgroundKey, backgroundPath);
+      } catch (_error) {
+        // Ignore storage failures.
+      }
+    })();
+  </script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600;1,700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../styles.css">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: ['class', '[data-theme="dark"]'],
+      theme: { extend: { colors: { primary: '#ffbf00' }, fontFamily: { sans: ['Inter', 'sans-serif'], serif: ['Playfair Display', 'serif'] } } }
+    }
+  </script>
+</head>
+<body data-page="eventos">
+  <div class="page-glow" aria-hidden="true"></div>
+  <div id="site-header"></div>
+
+  <main class="max-w-4xl mx-auto px-6 py-20">
+    <section class="mb-16 border-b border-gray-200 dark:border-gray-800 pb-8">
+      <p class="font-sans text-sm font-bold uppercase tracking-widest text-primary mb-4">Agenda</p>
+      <h1 class="font-serif text-5xl md:text-7xl font-bold text-gray-900 dark:text-white leading-tight mb-6">Eventos</h1>
+      <p class="font-sans text-xl text-gray-600 dark:text-gray-400 max-w-2xl">
+        Acompanhe seminários, debates, mesas redondas e conferências organizadas pelo Observatório.
+      </p>
+    </section>
+
+    <section class="flex flex-col gap-6" id="eventos-list-grid" aria-live="polite">
+      <p class="font-sans text-sm text-gray-500">Buscando agenda de eventos...</p>
+    </section>
+  </main>
+
+  <div id="site-footer"></div>
+
+  <script type="module" src="../script.js"></script>
+</body>
+</html>

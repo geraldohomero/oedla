@@ -4,18 +4,22 @@ import { getPath, escapeHtml, formatPostDatePtBr, formatCategoryLabel } from './
 function buildHomeFourColumnCard(post) {
   const imageSrc = post.image || getPath('posts/img/place-holder.png');
   const imageClass = post.image
-    ? 'w-full aspect-[4/3] object-cover rounded shadow-sm grayscale group-hover:grayscale-0 transition-all duration-500'
-    : 'w-full aspect-[4/3] object-contain rounded opacity-80 dark:invert dark:opacity-50 transition-all duration-500';
+    ? 'w-full h-full object-cover shadow-sm grayscale group-hover:grayscale-0 transition-all duration-500'
+    : 'w-full h-full object-contain opacity-80 dark:invert dark:opacity-50 transition-all duration-500';
   
   return `
-    <article class="group relative flex flex-col items-start gap-3 cursor-pointer" data-href="${getPath('pages/post.html?slug=' + encodeURIComponent(post.slug))}">
+    <article class="group relative flex flex-row sm:flex-col items-start gap-4 cursor-pointer w-full" data-href="${getPath('pages/post.html?slug=' + encodeURIComponent(post.slug))}">
       <a class="absolute inset-0 z-10" href="${getPath('pages/post.html?slug=' + encodeURIComponent(post.slug))}" aria-label="${escapeHtml(post.title)}"></a>
-      <div class="w-full overflow-hidden rounded">
+      
+      <!-- Image container: order-2 on mobile (right side), order-1 on tablet/desktop (top) -->
+      <div class="w-24 h-24 sm:w-full sm:aspect-[4/3] shrink-0 overflow-hidden rounded relative order-2 sm:order-1">
         <img src="${escapeHtml(imageSrc)}" alt="Capa: ${escapeHtml(post.title)}" class="${imageClass}">
       </div>
-      <div class="flex flex-col gap-1 w-full mt-1">
+      
+      <!-- Content container: order-1 on mobile (left side), order-2 on tablet/desktop (bottom) -->
+      <div class="flex-1 flex flex-col gap-1 w-full min-w-0 mt-1 order-1 sm:order-2">
         <span class="font-sans text-[10px] font-bold uppercase tracking-wider text-primary">${escapeHtml(post.date)} &bull; ${escapeHtml(post.categoryLabel)}</span>
-        <h3 class="font-serif text-base font-bold text-gray-900 dark:text-white leading-snug group-hover:text-primary transition-colors line-clamp-3">
+        <h3 class="font-serif text-sm md:text-base font-bold text-gray-900 dark:text-white leading-snug group-hover:text-primary transition-colors line-clamp-3">
           ${escapeHtml(post.title)}
         </h3>
         <span class="font-sans text-[10px] text-gray-400 group-hover:text-primary transition-colors mt-auto flex items-center gap-1">
