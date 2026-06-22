@@ -1126,12 +1126,3 @@ a:hover {
     left: 24%;
   }
 }
-
-/* Map rotation and hover effects */
-#latin-america-map {
-  transition: transform 0.15s ease-out;
-}
-#latin-america-map:hover {
-  transform: rotate(180deg) !important;
-  transition: transform 0.3s ease-out;
-}

@@ -130,23 +130,7 @@ function initHomeCarousel(slidesCount) {
   startAutoplay();
 }
 
-function initMapRotation() {
-  const mapEl = document.getElementById('latin-america-map');
-  if (!mapEl) return;
-
-  const handleScroll = () => {
-    const scrollY = window.scrollY;
-    const degrees = Math.min(scrollY / 100, 1) * 180;
-    mapEl.style.transform = `rotate(${degrees}deg)`;
-  };
-
-  handleScroll();
-  window.addEventListener('scroll', handleScroll, { passive: true });
-}
-
 export async function loadHomeLatestPosts() {
-  initMapRotation();
-
   const blogGrid = document.querySelector('#home-blog-grid');
   const newsGrid = document.querySelector('#home-news-grid');
   const carouselSlides = document.querySelector('#home-carousel-slides');
