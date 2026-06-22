@@ -65,75 +65,140 @@
   <div class="page-glow" aria-hidden="true"></div>
   <div id="site-header"></div>
 
-  <main class="max-w-5xl mx-auto px-6 py-20">
-    <section class="mb-32">
-      <div class="grid grid-cols-1 md:grid-cols-12 gap-8 items-start">
-        <div class="col-span-1 md:col-span-8">
-          <p class="font-sans text-lg md:text-xl text-gray-700 dark:text-gray-300 leading-relaxed max-w-3xl">
-            Pesquisas acadêmicas comparadas e monitoramento sistemático sobre as estratégias, discursos e impactos dos
-            movimentos de extrema direita na América Latina.
-          </p>
-          <div class="mt-10 flex flex-wrap gap-4">
-            <a href="pages/blog.html"
-              class="inline-flex items-center justify-center px-6 py-3 font-sans font-bold text-sm uppercase tracking-wider bg-gray-900 text-white dark:bg-white dark:text-gray-900 hover:bg-primary dark:hover:bg-primary hover:text-gray-900 transition-colors rounded-none">Ler
-              o Blog</a>
-            <a href="pages/noticias.html"
-              class="inline-flex items-center justify-center px-6 py-3 font-sans font-bold text-sm uppercase tracking-wider bg-transparent border border-gray-300 dark:border-gray-700 text-gray-900 dark:text-white hover:border-primary hover:text-primary transition-colors rounded-none">Ver
-              Notícias</a>
-            <a href="pages/quemsomos.html"
-              class="inline-flex items-center justify-center px-6 py-3 font-sans font-bold text-sm uppercase tracking-wider bg-transparent text-gray-600 dark:text-gray-400 hover:text-primary transition-colors">Quem
-              somos &rarr;</a>
-          </div>
+  <!-- Hero Section: Full width adapted background -->
+  <section class="hero-section overflow-hidden py-24 md:py-32 relative border-b border-gray-200 dark:border-gray-800">
+    <!-- Grid Overlay -->
+    <div class="absolute inset-0 opacity-20"
+      style="background-image: radial-gradient(var(--stroke) 1px, transparent 0); background-size: 24px 24px;"></div>
+
+    <div class="max-w-5xl mx-auto px-6 relative z-10 grid grid-cols-1 md:grid-cols-12 gap-12 items-center">
+      <div class="col-span-1 md:col-span-7 flex flex-col items-start text-left">
+        <span class="font-sans text-xs font-bold uppercase tracking-widest text-primary mb-4">Investigação, Análise e
+          Notícias</span>
+        <h1 class="font-serif text-4xl md:text-6xl font-bold leading-tight mb-6 text-gray-900 dark:text-white">
+          Observatório da<br />Extrema Direita<br />Latino-Americana
+        </h1>
+        <p class="font-sans text-base md:text-lg text-gray-600 dark:text-gray-400 leading-relaxed max-w-xl mb-8">
+          Produzimos e reunimos análises críticas e plurais sobre a extrema direita na América Latina. Informação
+          rigorosa em defesa da democracia, dos direitos e do interesse público.
+        </p>
+        <div class="flex flex-wrap gap-4">
+          <a href="pages/blog.html"
+            class="inline-flex items-center gap-2 px-6 py-3 font-sans font-bold text-sm uppercase tracking-wider bg-primary text-gray-900 hover:bg-yellow-400 transition-colors">
+            Ler Publicações
+          </a>
+          <a href="pages/noticias.html"
+            class="inline-flex items-center gap-2 px-6 py-3 font-sans font-bold text-sm uppercase tracking-wider border border-gray-300 dark:border-gray-700 text-gray-700 dark:text-gray-300 hover:border-primary hover:text-primary transition-colors">
+            Notícias
+          </a>
+          <a href="pages/quemsomos.html"
+            class="inline-flex items-center gap-2 px-6 py-3 font-sans font-bold text-sm uppercase tracking-wider border border-gray-300 dark:border-gray-700 text-gray-700 dark:text-gray-300 hover:border-primary hover:text-primary transition-colors">
+            Quem Somos
+          </a>
         </div>
-        <div class="col-span-1 md:col-span-4 border-l border-gray-200 dark:border-gray-800 pl-6">
-          <p class="font-sans text-xs font-bold uppercase tracking-wider text-gray-400 dark:text-gray-500 mb-4">Nossas
-            Redes</p>
+
+        <!-- Nossas Redes -->
+        <div class="mt-8 flex flex-col gap-2.5">
+          <p class="font-sans text-[10px] font-bold uppercase tracking-wider text-gray-400 dark:text-gray-500">Nossas Redes</p>
           <div class="flex flex-wrap gap-3" id="labiia-social-links">
-            <p class="font-sans text-sm text-gray-500">Carregando redes...</p>
+            <p class="font-sans text-xs text-gray-500">Carregando redes...</p>
           </div>
         </div>
       </div>
-    </section>
 
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-16 border-t border-gray-200 dark:border-gray-800 pt-16">
-      <section>
-        <div class="mb-10 flex justify-between items-end border-b border-gray-200 dark:border-gray-800 pb-4">
-          <div>
-            <h2 class="font-serif text-3xl font-bold text-gray-900 dark:text-white">Últimas Análises</h2>
-            <p class="font-sans text-sm text-gray-500 dark:text-gray-400 mt-2">Artigos acadêmicos e investigações
-              detalhadas.</p>
-          </div>
-          <a href="pages/blog.html"
-            class="hidden md:inline-block font-sans text-sm font-bold text-gray-900 dark:text-white hover:text-primary transition-colors uppercase tracking-wider">Ver
-            tudo</a>
+      <!-- Right Side Map Graphic -->
+      <div
+        class="hidden md:flex col-span-1 md:col-span-5 relative h-80 md:h-[400px] w-full items-center justify-center pointer-events-none">
+        <img src="assets/img/latin_america_map.png" alt="Mapa da América Latina"
+          class="absolute w-full h-full object-contain opacity-20 dark:opacity-60 dark:invert" />
+      </div>
+    </div>
+  </section>
+
+  <!-- Carousel Section: Últimas Adições (Investigação em Destaque) -->
+  <section class="py-20 bg-gray-50 dark:bg-gray-900/40 border-b border-gray-200 dark:border-gray-800">
+    <div class="max-w-5xl mx-auto px-6">
+      <div class="flex items-center gap-2 mb-8">
+        <span class="w-1.5 h-6 bg-primary rounded-sm"></span>
+        <h2 class="font-serif text-sm font-bold uppercase tracking-widest text-gray-500 dark:text-gray-400">Em Destaque
+        </h2>
+      </div>
+
+      <!-- Carousel Container -->
+      <div class="relative overflow-hidden min-h-[350px]" id="home-carousel-container">
+        <!-- Slides wrapper (will be dynamically injected by JS) -->
+        <div class="flex transition-transform duration-500 ease-out" id="home-carousel-slides">
+          <p class="font-sans text-sm text-gray-500 p-8 w-full text-center">Buscando destaques recentes...</p>
         </div>
-        <div class="flex flex-col gap-8" id="home-blog-preview" aria-live="polite">
-          <p class="font-sans text-sm text-gray-500">Buscando análises recentes...</p>
+
+        <!-- Controls -->
+        <div class="absolute bottom-4 left-0 right-0 flex justify-between items-center px-4 md:px-0 z-20">
+          <div class="flex gap-2" id="home-carousel-dots">
+            <!-- Inject dots here -->
+          </div>
+          <div class="flex gap-2">
+            <button id="carousel-prev"
+              class="w-8 h-8 rounded-full border border-gray-300 dark:border-gray-700 flex items-center justify-center hover:bg-primary hover:text-gray-900 transition-colors text-gray-700 dark:text-gray-300"
+              aria-label="Anterior">
+              <i class="fa-solid fa-chevron-left text-xs"></i>
+            </button>
+            <button id="carousel-next"
+              class="w-8 h-8 rounded-full border border-gray-300 dark:border-gray-700 flex items-center justify-center hover:bg-primary hover:text-gray-900 transition-colors text-gray-700 dark:text-gray-300"
+              aria-label="Próximo">
+              <i class="fa-solid fa-chevron-right text-xs"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Main Previews -->
+  <main class="max-w-5xl mx-auto px-6 py-20">
+    <!-- Blog Section (4 horizontal) -->
+    <section class="mb-24">
+      <div class="flex justify-between items-end border-b border-gray-200 dark:border-gray-800 pb-4 mb-8">
+        <div>
+          <div class="flex items-center gap-2 mb-2">
+            <span class="w-1.5 h-4 bg-primary rounded-sm"></span>
+            <span
+              class="font-sans text-xs font-bold uppercase tracking-widest text-gray-400 dark:text-gray-500">Publicações
+              Acadêmicas</span>
+          </div>
+          <h2 class="font-serif text-3xl font-bold text-gray-900 dark:text-white">Artigos Recentes</h2>
         </div>
         <a href="pages/blog.html"
-          class="inline-block mt-8 md:hidden font-sans text-sm font-bold text-gray-900 dark:text-white hover:text-primary transition-colors uppercase tracking-wider">Ver
-          tudo &rarr;</a>
-      </section>
+          class="font-sans text-sm font-bold text-gray-900 dark:text-white hover:text-primary transition-colors uppercase tracking-wider">Ver
+          todos os artigos &rarr;</a>
+      </div>
 
-      <section>
-        <div class="mb-10 flex justify-between items-end border-b border-gray-200 dark:border-gray-800 pb-4">
-          <div>
-            <h2 class="font-serif text-3xl font-bold text-gray-900 dark:text-white">Últimas Notícias</h2>
-            <p class="font-sans text-sm text-gray-500 dark:text-gray-400 mt-2">Notas técnicas, atualizações e alertas.
-            </p>
+      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6" id="home-blog-grid">
+        <p class="col-span-full font-sans text-sm text-gray-500 py-8 text-center">Buscando artigos...</p>
+      </div>
+    </section>
+
+    <!-- News Section (4 horizontal) -->
+    <section class="mb-12">
+      <div class="flex justify-between items-end border-b border-gray-200 dark:border-gray-800 pb-4 mb-8">
+        <div>
+          <div class="flex items-center gap-2 mb-2">
+            <span class="w-1.5 h-4 bg-primary rounded-sm"></span>
+            <span class="font-sans text-xs font-bold uppercase tracking-widest text-gray-400 dark:text-gray-500">Notas e
+              Comunicados</span>
           </div>
-          <a href="pages/noticias.html"
-            class="hidden md:inline-block font-sans text-sm font-bold text-gray-900 dark:text-white hover:text-primary transition-colors uppercase tracking-wider">Ver
-            tudo</a>
-        </div>
-        <div class="flex flex-col gap-8" id="home-news-preview" aria-live="polite">
-          <p class="font-sans text-sm text-gray-500">Buscando notícias recentes...</p>
+          <h2 class="font-serif text-3xl font-bold text-gray-900 dark:text-white">Últimas Notícias</h2>
         </div>
         <a href="pages/noticias.html"
-          class="inline-block mt-8 md:hidden font-sans text-sm font-bold text-gray-900 dark:text-white hover:text-primary transition-colors uppercase tracking-wider">Ver
-          tudo &rarr;</a>
-      </section>
-    </div>
+          class="font-sans text-sm font-bold text-gray-900 dark:text-white hover:text-primary transition-colors uppercase tracking-wider">Ver
+          todas as notícias &rarr;</a>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6" id="home-news-grid">
+        <p class="col-span-full font-sans text-sm text-gray-500 py-8 text-center">Buscando notícias...</p>
+      </div>
+    </section>
+
+
   </main>
 
   <div id="site-footer"></div>
